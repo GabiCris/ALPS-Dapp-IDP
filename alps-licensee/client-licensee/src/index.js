@@ -13,6 +13,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // import drizzle functions and contract artifact
 import { Drizzle } from "@drizzle/store";
 import MyStringStore from "./contracts/MyStringStore.json";
+import SignInSide from 'views/SignInSlide';
 
 // let drizzle know what contracts we want and how to access our test blockchain
 const options = {
@@ -34,7 +35,8 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/licensee" render={(props) => <LicenseeLayout {...props} />} />
-      <Redirect to="/admin/dashboard" />
+      <Route path="/login" render={(props) => <SignInSide {...props} />} />
+      <Redirect to="/licensee/dashboard" />
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -110,7 +110,6 @@ class Header extends React.Component {
   }
   render() {
     return (
-      // add or remove classes depending if we are on full-screen-maps page or not
       <Navbar
         color={
           this.props.location.pathname.indexOf("full-screen-maps") !== -1

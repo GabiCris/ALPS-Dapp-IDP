@@ -28,7 +28,7 @@ import {
   Col,
 } from "reactstrap";
 
-
+import SettingsInputAntennaOutlinedIcon from '@material-ui/icons/SettingsInputAntennaOutlined';
 import {
   dashboard24HoursPerformanceChart,
   dashboardEmailStatisticsChart,
@@ -52,8 +52,8 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <p className="card-category">Total Balance</p>
-                        <CardTitle tag="p">1,245</CardTitle>
+                        <p className="card-category">Monthly Fees</p>
+                        <CardTitle tag="p">$ 350</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -79,8 +79,8 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md="8" xs="7">
                       <div className="numbers">
-                        <p className="card-category">Overdue Balance</p>
-                        <CardTitle tag="p">$ 350</CardTitle>
+                        <p className="card-category">Balance</p>
+                        <CardTitle tag="p">$ 1,245</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -107,6 +107,33 @@ class Dashboard extends React.Component {
                       <div className="numbers">
                         <p className="card-category">Active Licenses</p>
                         <CardTitle tag="p">6</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+                <CardFooter>
+                  <hr />
+                  <div className="stats">
+                  <i className="far fa-calendar" /> Last day
+                  </div>
+                </CardFooter>
+              </Card>
+            </Col>
+
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="4" xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <SettingsInputAntennaOutlinedIcon fontSize="large"/>
+                      </div>
+                    </Col>
+                    <Col md="8" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Active Devices</p>
+                        <CardTitle tag="p">225</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -172,6 +199,33 @@ class Dashboard extends React.Component {
                   <hr />
                   <div className="card-stats">
                     
+                  </div>
+                </CardFooter>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+          <Col >
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h5">Device Usage Statistics</CardTitle>
+                  <p className="card-category">Last Month Details</p>
+                </CardHeader>
+                <CardBody>
+                  <Pie
+                    data={dashboard24HoursPerformanceChart.data}
+                    options={dashboard24HoursPerformanceChart.options}
+                  />
+                </CardBody>
+                <CardFooter>
+                  <div className="legend">
+                    <i className="fa fa-circle text-primary" /> Device Category 1{"  "}
+                    <i className="fa fa-circle text-warning" /> Device Category 2{"  "}
+                    <i className="fa fa-circle text-danger" /> Device Category 3{"  "}
+                  </div>
+                  <hr />
+                  <div className="stats">
+                    <i className="fa fa-calendar" /> Payments to IP Owners
                   </div>
                 </CardFooter>
               </Card>

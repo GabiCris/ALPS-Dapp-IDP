@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
                   component={prop.component}
                   key={key}
                 />
-              );
+              ); 
             })}
           </Switch>
           <Footer fluid />

@@ -18,9 +18,15 @@
 */
 /*eslint-disable*/
 import React from "react";
-import { Container, Row } from "reactstrap";
 // used for making the prop types of this component
 import PropTypes from "prop-types";
+import logo from "ALPSlogo.png";
+
+import {
+  Row,
+  Col,
+  Container,
+} from "reactstrap";
 
 class Footer extends React.Component {
   render() {
@@ -30,12 +36,13 @@ class Footer extends React.Component {
       >
         <Container fluid={this.props.fluid ? true : false}>
           <Row>
-            
+
             <div className="credits ml-auto">
               <div className="copyright">
                 &copy; {1900 + new Date().getYear()}, ALPS
               </div>
             </div>
+
           </Row>
         </Container>
       </footer>
