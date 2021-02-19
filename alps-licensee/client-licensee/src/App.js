@@ -37,7 +37,7 @@ export default function App() {
   }
 }
 
-App.PropTypes = {
+App.propTypes = {
   token: PropTypes.string,
-  setToken: PropTypes.string,
+  setToken: PropTypes.func,
 };

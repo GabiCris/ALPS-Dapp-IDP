@@ -3,9 +3,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import { Link } from "react-router-dom";
+
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -22,10 +20,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
         ALPS
-      </Link>{" "}
-      {new Date().getFullYear()}
+      {" " + new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -88,30 +84,16 @@ export default function SignInSide({ setToken }) {
                 margin="normal"
                 required
                 fullWidth
-                id="user-name"
-                label="User Name"
-                name="User Name"
-                autoComplete="User Name"
+                id="user-address"
+                label="Address"
+                name="Address"
+                autoComplete="Address"
                 autoFocus
                 onChange={(e) => {
                   setUserToken(e.target.value);
                 }}
               />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              
                 <Button
                   type="submit"
                   fullWidth
@@ -123,16 +105,7 @@ export default function SignInSide({ setToken }) {
                   Sign In
                 </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Request Credentials"}
-                  </Link>
-                </Grid>
+               
               </Grid>
               <Box mt={5}>
                 <Copyright />
@@ -146,5 +119,5 @@ export default function SignInSide({ setToken }) {
 }
 
 SignInSide.propTypes = {
-  setToken: PropTypes.string
+  setToken: PropTypes.func
 }
