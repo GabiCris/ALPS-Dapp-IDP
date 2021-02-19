@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*!
 
 =========================================================
@@ -64,14 +65,14 @@ class Header extends React.Component {
       isOpen: !this.state.isOpen,
     });
   }
-  dropdownToggle(e) {
+  dropdownToggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     });
   }
   getBrand() {
     let brandName = "Default Brand";
-    routes.map((prop, key) => {
+    routes.map((prop) => {
       if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
         brandName = prop.name;
       }

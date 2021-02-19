@@ -1,4 +1,4 @@
-import SignInSide from "views/SignInSlide";
+import SignInSide from "components/login/SignInSlide";
 import Dashboard from "./views/Dashboard";
 import LicensorDetails from "./views/LicensorDetails";
 import Payments from "./views/Payments";

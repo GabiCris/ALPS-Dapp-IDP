@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /*!
 
 =========================================================
@@ -22,10 +23,10 @@ import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
-import logo from "ALPSlogo.png";
+import logo from "assets/logos/ALPSlogo_noSoftware.png";
 import logoca from "assets/logos/ca-logo.png";
 import logoifm from "assets/logos/ifm-logo.png";
-import { Row, Col, Container } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 var ps;
 

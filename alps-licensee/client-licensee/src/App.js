@@ -1,57 +1,43 @@
-import ReadString from "./ReadString";
-import React, { Component } from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-
-// class App extends Component {
-//   state = { loading: true, drizzleState: null };
-
-//   componentDidMount() {
-//     const { drizzle } = this.props;
-
-//     // subscribe to changes in the store
-//     this.unsubscribe = drizzle.store.subscribe(() => {
-
-//       // every time the store updates, grab the state from drizzle
-//       const drizzleState = drizzle.store.getState();
-
-//       // check to see if it's ready, if so, update local component state
-//       if (drizzleState.drizzleStatus.initialized) {
-//         this.setState({ loading: false, drizzleState });
-//       }
-//     });
-//   }
-
-//   componentWillUnmount() {
-//     this.unsubscribe();
-//   }
-
-//   // render() {
-//   //   if (this.state.loading) return "Loading Drizzle...";
-//   //   return (
-//   //     <div className="App">
-//   //       <ReadString
-//   //         drizzle={this.props.drizzle}
-//   //         drizzleState={this.state.drizzleState}
-//   //       />
-//   //     </div>
-//   //   );
-//   // }
-//    render(){
-//      return (
-//        <Dashboard />
-//      )
-//    }
-// }
+import React, { useState } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import SignInSide from "components/login/SignInSlide";
+import LicenseeLayout from "./layouts/Licensee";
+import PropTypes from "prop-types";
 
 export default function App() {
-  return (
+  const [token, setToken] = useState();
 
-      "Loading Succesful"
+  console.log("Storage Token:" + localStorage.getItem("CurrentToken"));
+  if (!token && !localStorage.getItem("CurrentToken")) {
+    console.log("Showing False Token:" + token);
+    return <SignInSide setToken={setToken} />;
+  } else {
 
-  );
+    if (!token) {
+        //if current token is undefined, use the local storage one
+      setToken(localStorage.getItem("CurrentToken"));
+    } else {
+      // Token has been set. Store token in local storage. Until log-out (or new token is input)
+      localStorage.setItem("CurrentToken", token);
+    }
+
+    console.log("Showing True Token:" + token);
+
+    return (
+      <div className="App">
+        <Switch>
+          <Route
+            path="/licensee"
+            render={(props) => <LicenseeLayout {...props} />}
+          />
+          <Redirect to="/licensee/dashboard" />
+        </Switch>
+      </div>
+    );
+  }
 }
 
-
+App.PropTypes = {
+  token: PropTypes.string,
+  setToken: PropTypes.string,
+};

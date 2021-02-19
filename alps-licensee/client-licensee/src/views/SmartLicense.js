@@ -1,21 +1,9 @@
 import HorizontalNonLinearAlternativeLabelStepper from "components/Stepper";
 import React from "react";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Input,
-  CardTitle,
-  Row,
-  Col,
-} from "reactstrap";
 
 
 
-class SmartLicense extends React.Component {
-  
+class SmartLicense extends React.Component { 
   state = {
     visible: true,
   };

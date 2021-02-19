@@ -115,6 +115,7 @@ export default function HorizontalNonLinearAlternativeLabelStepper() {
     return step === 1;
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
       // You probably want to guard against something like this

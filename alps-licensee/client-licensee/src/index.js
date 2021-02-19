@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
-import LicenseeLayout from "./layouts/Licensee"
+import LicenseeLayout from "./layouts/Licensee";
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.2.0";
 import "assets/demo/demo.css";
@@ -13,7 +14,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // import drizzle functions and contract artifact
 import { Drizzle } from "@drizzle/store";
 import MyStringStore from "./contracts/MyStringStore.json";
-import SignInSide from 'views/SignInSlide';
+import App from "App";
 
 // let drizzle know what contracts we want and how to access our test blockchain
 const options = {
@@ -33,11 +34,7 @@ const drizzle = new Drizzle(options);
 
 ReactDOM.render(
   <Router history={hist}>
-    <Switch>
-      <Route path="/licensee" render={(props) => <LicenseeLayout {...props} />} />
-      <Route path="/login" render={(props) => <SignInSide {...props} />} />
-      <Redirect to="/licensee/dashboard" />
-    </Switch>
+    <App/>
   </Router>,
   document.getElementById("root")
 );
