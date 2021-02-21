@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -12,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import PropTypes from "prop-types";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 import backimg from "ALPSlogo.png";
 import themecol from "ColorTheme";
@@ -20,7 +23,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-        ALPS
+      ALPS
       {" " + new Date().getFullYear()}
       {"."}
     </Typography>
@@ -69,9 +72,25 @@ export default function SignInSide({ setToken }) {
     <ThemeProvider theme={themecol}>
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
+
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
+            <Box mb={10}>
+              <Grid item>
+                <Tabs
+                  value={"23"}
+                  onChange={undefined}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="Licensee" />
+                  <Tab label="Licensor" />
+                  <Tab label="Financial" />
+                </Tabs>
+              </Grid>
+            </Box>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
@@ -93,20 +112,18 @@ export default function SignInSide({ setToken }) {
                   setUserToken(e.target.value);
                 }}
               />
-              
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick = {() => setToken(userToken)}
-                >
-                  Sign In
-                </Button>
-              <Grid container>
-               
-              </Grid>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={() => setToken(userToken)}
+              >
+                Sign In
+              </Button>
+              <Grid container></Grid>
               <Box mt={5}>
                 <Copyright />
               </Box>
@@ -119,5 +136,5 @@ export default function SignInSide({ setToken }) {
 }
 
 SignInSide.propTypes = {
-  setToken: PropTypes.func
-}
+  setToken: PropTypes.func,
+};

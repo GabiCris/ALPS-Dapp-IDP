@@ -38,6 +38,7 @@ import {
 } from "reactstrap";
 
 import routes from "routes.js";
+import SettingsInputAntennaOutlinedIcon from "@material-ui/icons/SettingsInputAntennaOutlined";
 
 class Header extends React.Component {
   constructor(props) {
@@ -162,7 +163,6 @@ class Header extends React.Component {
               </InputGroup>
             </form>
             <Nav navbar>
-            
               <Dropdown
                 nav
                 isOpen={this.state.dropdownOpen}
@@ -183,6 +183,14 @@ class Header extends React.Component {
               <NavItem>
                 <Link to="#pablo" className="nav-link btn-rotate">
                   <i className="nc-icon nc-settings-gear-65" />
+                  <p>
+                    <span className="d-lg-none d-md-block">Account</span>
+                  </p>
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/logout" className="nav-link btn-rotate">
+                  <SettingsInputAntennaOutlinedIcon fontSize="small" />
                   <p>
                     <span className="d-lg-none d-md-block">Account</span>
                   </p>

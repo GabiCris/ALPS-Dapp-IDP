@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import SignInSide from "components/login/SignInSlide";
 import LicenseeLayout from "./layouts/Licensee";
 import PropTypes from "prop-types";
+import Logout from "components/login/Logout";
 
 export default function App() {
   const [token, setToken] = useState();
@@ -12,9 +13,8 @@ export default function App() {
     console.log("Showing False Token:" + token);
     return <SignInSide setToken={setToken} />;
   } else {
-
     if (!token) {
-        //if current token is undefined, use the local storage one
+      //if current token is undefined, use the local storage one
       setToken(localStorage.getItem("CurrentToken"));
     } else {
       // Token has been set. Store token in local storage. Until log-out (or new token is input)
@@ -30,6 +30,8 @@ export default function App() {
             path="/licensee"
             render={(props) => <LicenseeLayout {...props} />}
           />
+          <Route path="/logout" render={() => <Logout setToken={setToken} />} />
+
           <Redirect to="/licensee/dashboard" />
         </Switch>
       </div>
