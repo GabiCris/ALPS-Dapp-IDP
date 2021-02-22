@@ -38,7 +38,7 @@ import {
 } from "reactstrap";
 
 import routes from "routes.js";
-import SettingsInputAntennaOutlinedIcon from "@material-ui/icons/SettingsInputAntennaOutlined";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 class Header extends React.Component {
   constructor(props) {
@@ -190,7 +190,7 @@ class Header extends React.Component {
               </NavItem>
               <NavItem>
                 <Link to="/logout" className="nav-link btn-rotate">
-                  <SettingsInputAntennaOutlinedIcon fontSize="small" />
+                  <ExitToAppIcon fontSize="small" />
                   <p>
                     <span className="d-lg-none d-md-block">Account</span>
                   </p>

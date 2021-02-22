@@ -1,6 +1,7 @@
 import React from "react";
 import CollapsibleTable from "components/DevicesTable";
 
+
 import {
   Card,
   CardHeader,

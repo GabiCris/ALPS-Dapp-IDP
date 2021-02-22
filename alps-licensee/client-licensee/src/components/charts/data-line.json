@@ -1,0 +1,272 @@
+[
+    {
+      "id": "Device 1",
+      "color": "hsl(79, 70%, 50%)",
+      "data": [
+        {
+          "x": "January",
+          "y": 98
+        },
+        {
+          "x": "February",
+          "y": 282
+        },
+        {
+          "x": "March",
+          "y": 285
+        },
+        {
+          "x": "April",
+          "y": 218
+        },
+        {
+          "x": "May",
+          "y": 285
+        },
+        {
+          "x": "June",
+          "y": 70
+        },
+        {
+          "x": "July",
+          "y": 135
+        },
+        {
+          "x": "August",
+          "y": 280
+        },
+        {
+          "x": "September",
+          "y": 0
+        },
+        {
+          "x": "October",
+          "y": 79
+        },
+        {
+          "x": "November",
+          "y": 48
+        },
+        {
+          "x": "December",
+          "y": 198
+        }
+      ]
+    },
+    {
+      "id": "Device 2",
+      "color": "hsl(308, 70%, 50%)",
+      "data": [
+        {
+          "x": "January",
+          "y": 100
+        },
+        {
+          "x": "February",
+          "y": 112
+        },
+        {
+          "x": "March",
+          "y": 153
+        },
+        {
+          "x": "April",
+          "y": 254
+        },
+        {
+          "x": "May",
+          "y": 276
+        },
+        {
+          "x": "June",
+          "y": 192
+        },
+        {
+          "x": "July",
+          "y": 199
+        },
+        {
+          "x": "August",
+          "y": 121
+        },
+        {
+          "x": "September",
+          "y": 229
+        },
+        {
+          "x": "October",
+          "y": 160
+        },
+        {
+          "x": "November",
+          "y": 234
+        },
+        {
+          "x": "December",
+          "y": 85
+        }
+      ]
+    },
+    {
+      "id": "Device 3",
+      "color": "hsl(85, 70%, 50%)",
+      "data": [
+        {
+          "x": "January",
+          "y": 39
+        },
+        {
+          "x": "February",
+          "y": 254
+        },
+        {
+          "x": "March",
+          "y": 157
+        },
+        {
+          "x": "April",
+          "y": 245
+        },
+        {
+          "x": "May",
+          "y": 164
+        },
+        {
+          "x": "June",
+          "y": 294
+        },
+        {
+          "x": "July",
+          "y": 95
+        },
+        {
+          "x": "August",
+          "y": 111
+        },
+        {
+          "x": "September",
+          "y": 202
+        },
+        {
+          "x": "October",
+          "y": 113
+        },
+        {
+          "x": "November",
+          "y": 278
+        },
+        {
+          "x": "December",
+          "y": 70
+        }
+      ]
+    },
+    {
+      "id": "Device 4",
+      "color": "hsl(8, 70%, 50%)",
+      "data": [
+        {
+          "x": "January",
+          "y": 97
+        },
+        {
+          "x": "February",
+          "y": 223
+        },
+        {
+          "x": "March",
+          "y": 183
+        },
+        {
+          "x": "April",
+          "y": 219
+        },
+        {
+          "x": "May",
+          "y": 260
+        },
+        {
+          "x": "June",
+          "y": 297
+        },
+        {
+          "x": "July",
+          "y": 55
+        },
+        {
+          "x": "August",
+          "y": 114
+        },
+        {
+          "x": "September",
+          "y": 74
+        },
+        {
+          "x": "October",
+          "y": 75
+        },
+        {
+          "x": "November",
+          "y": 109
+        },
+        {
+          "x": "December",
+          "y": 103
+        }
+      ]
+    },
+    {
+      "id": "Device 5",
+      "color": "hsl(178, 70%, 50%)",
+      "data": [
+        {
+          "x": "January",
+          "y": 162
+        },
+        {
+          "x": "February",
+          "y": 150
+        },
+        {
+          "x": "March",
+          "y": 270
+        },
+        {
+          "x": "April",
+          "y": 183
+        },
+        {
+          "x": "May",
+          "y": 119
+        },
+        {
+          "x": "June",
+          "y": 10
+        },
+        {
+          "x": "July",
+          "y": 189
+        },
+        {
+          "x": "August",
+          "y": 76
+        },
+        {
+          "x": "September",
+          "y": 297
+        },
+        {
+          "x": "October",
+          "y": 129
+        },
+        {
+          "x": "November",
+          "y": 139
+        },
+        {
+          "x": "December",
+          "y": 11
+        }
+      ]
+    }
+  ]
