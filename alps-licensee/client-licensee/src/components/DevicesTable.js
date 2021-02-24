@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -30,6 +30,7 @@ import dataBarCh from "components/charts/data.json";
 import "components/charts/chart.scss";
 import { DevicesLineChart } from "components/charts/DevicesLineChart";
 import dataLineCh from "components/charts/data-line.json";
+import SearchBar from "material-ui-search-bar";
 
 const useRowStyles = makeStyles({
   root: {
@@ -113,6 +114,7 @@ function RowF(props) {
                   </TableBody>
                 </Table>
               </Card>
+              
               </Box>
               <div className="content">
                 <Row>
@@ -167,7 +169,7 @@ RowF.propTypes = {
   }).isRequired,
 };
 
-const rows = [
+const rowss = [
   createData("Device 1", 159, 6.0, 24),
   createData("Device 234", 237, 9.0, 37),
   createData("Device 123", 262, 16.0, 24),
@@ -176,7 +178,28 @@ const rows = [
 ];
 
 export default function CollapsibleTable() {
+  const [rows, setRows] = useState(rowss);
+  const [searched, setSearched] = useState("");
+
+  const requestSearch = (searchedVal) => {
+    const filteredRows = rows.filter((row) => {
+      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setRows(filteredRows);
+  };
+const cancelSearch = () => {
+    setSearched("");
+    requestSearch(searched);
+  };
+
+
   return (
+    <Paper>
+    <SearchBar
+    value={searched}
+    onChange={(searchVal) => requestSearch(searchVal)}
+    onCancelSearch={() => cancelSearch()}
+    />
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
@@ -195,5 +218,6 @@ export default function CollapsibleTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    </Paper>
   );
 }

@@ -3,7 +3,8 @@ import Dashboard from "./views/Dashboard";
 import LicensorDetails from "./views/LicensorDetails";
 import Payments from "./views/Payments";
 import SmartLicense from "./views/SmartLicense";
-import Devices from "./views/Devices"
+import Devices from "./views/Devices";
+import ActiveLicenses from "views/ActiveLicenses";
 
 var routes = [
   {
@@ -39,7 +40,7 @@ var routes = [
     path: "/licenses",
     name: "Active Licenses",
     icon: "nc-icon nc-vector",
-    component: null,
+    component: ActiveLicenses,
     layout: "/licensee",
   },
 

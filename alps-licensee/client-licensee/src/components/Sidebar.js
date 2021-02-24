@@ -24,9 +24,9 @@ import { Nav } from "reactstrap";
 import PerfectScrollbar from "perfect-scrollbar";
 
 import logo from "assets/logos/ALPSlogo_noSoftware.png";
-import logoca from "assets/logos/ca-logo.png";
-import logoifm from "assets/logos/ifm-logo.png";
-import { Row, Col } from "reactstrap";
+// import logoca from "assets/logos/ca-logo.png";
+// import logoifm from "assets/logos/ifm-logo.png";
+// import { Row, Col } from "reactstrap";
 
 var ps;
 
@@ -93,7 +93,7 @@ class Sidebar extends React.Component {
               }
             })}
           </Nav>
-
+{/* 
           <div className="fixed-bottom">
             <div className="logo">
               <Row>
@@ -109,7 +109,8 @@ class Sidebar extends React.Component {
                 </Col>
               </Row>
             </div>
-          </div>
+          </div> */}
+
         </div>
       </div>
     );

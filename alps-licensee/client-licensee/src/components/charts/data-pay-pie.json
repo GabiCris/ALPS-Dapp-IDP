@@ -1,0 +1,32 @@
+[
+    {
+      "id": "License 1",
+      "label": "License 1",
+      "value": 124,
+      "color": "hsl(234, 70%, 50%)"
+    },
+    {
+      "id": "NowTech",
+      "label": "NowTech",
+      "value": 317,
+      "color": "hsl(101, 70%, 50%)"
+    },
+    {
+      "id": "E-Corp",
+      "label": "E-Corp",
+      "value": 326,
+      "color": "hsl(247, 70%, 50%)"
+    },
+    {
+      "id": "Agreement v3",
+      "label": "Agreement v3",
+      "value": 192,
+      "color": "hsl(133, 70%, 50%)"
+    },
+    {
+      "id": "Agreement v4",
+      "label": "Agreement v4",
+      "value": 471,
+      "color": "hsl(142, 70%, 50%)"
+    }
+  ]

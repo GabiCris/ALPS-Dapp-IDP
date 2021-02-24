@@ -1,0 +1,56 @@
+[
+  {
+    "id": "Total Fees",
+    "color": "hsl(8, 70%, 50%)",
+    "data": [
+      {
+        "x": "January",
+        "y": 97
+      },
+      {
+        "x": "February",
+        "y": 223
+      },
+      {
+        "x": "March",
+        "y": 183
+      },
+      {
+        "x": "April",
+        "y": 219
+      },
+      {
+        "x": "May",
+        "y": 260
+      },
+      {
+        "x": "June",
+        "y": 297
+      },
+      {
+        "x": "July",
+        "y": 55
+      },
+      {
+        "x": "August",
+        "y": 114
+      },
+      {
+        "x": "September",
+        "y": 74
+      },
+      {
+        "x": "October",
+        "y": 75
+      },
+      {
+        "x": "November",
+        "y": 109
+      },
+      {
+        "x": "December",
+        "y": 103
+      }
+    ]
+  }
+]

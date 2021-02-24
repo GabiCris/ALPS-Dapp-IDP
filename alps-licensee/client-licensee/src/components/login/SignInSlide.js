@@ -16,17 +16,23 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import backimg from "ALPSlogo.png";
+import ALPSlogo from "ALPSlogo.png";
 import themecol from "ColorTheme";
+
+import logoca from "assets/logos/ca-logo.png";
+import logoifm from "assets/logos/ifm-logo.png";
+import { Row, Col, Card } from "reactstrap";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      ALPS
-      {" " + new Date().getFullYear()}
-      {"."}
-    </Typography>
+    <div>
+      <Typography variant="body2" color="textSecondary" align="center">
+        {"Copyright © "}
+        ALPS
+        {" " + new Date().getFullYear()}
+        {"."}
+      </Typography>
+    </div>
   );
 }
 
@@ -35,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: backimg,
+    backgroundImage: ALPSlogo,
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -92,7 +98,8 @@ export default function SignInSide({ setToken }) {
               </Grid>
             </Box>
             <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
+              {/* <LockOutlinedIcon /> */}
+              <img src={ALPSlogo}/>
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
@@ -104,8 +111,8 @@ export default function SignInSide({ setToken }) {
                 required
                 fullWidth
                 id="user-address"
-                label="Address"
-                name="Address"
+                label="ID"
+                name="ID"
                 autoComplete="Address"
                 autoFocus
                 onChange={(e) => {
@@ -126,6 +133,22 @@ export default function SignInSide({ setToken }) {
               <Grid container></Grid>
               <Box mt={5}>
                 <Copyright />
+              </Box>
+              <Box mt={18} px={10}>
+                <div className="logo">
+                  <Row>
+                    <Col >
+                      <div className="logo-img">
+                        <img src={logoca} alt="react-logo" />
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="logo-img">
+                        <img src={logoifm} alt="react-logo" />
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
               </Box>
             </form>
           </div>
