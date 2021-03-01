@@ -22,8 +22,15 @@ import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
+import {
+  Row,
+  Col,
+} from "reactstrap";
 
 import logo from "assets/logos/ALPSlogo_noSoftware.png";
+
+import logocam from "assets/logos/ca-logo-white.png";
+import logoifm from "assets/logos/ifm-logo.png";
 // import logoca from "assets/logos/ca-logo.png";
 // import logoifm from "assets/logos/ifm-logo.png";
 // import { Row, Col } from "reactstrap";
@@ -93,13 +100,13 @@ class Sidebar extends React.Component {
               }
             })}
           </Nav>
-{/* 
+
           <div className="fixed-bottom">
             <div className="logo">
               <Row>
                 <Col md="1">
                   <div className="logo-img">
-                    <img src={logoca} alt="react-logo" />
+                    <img src={logocam} alt="react-logo" />
                   </div>
                 </Col>
                 <Col md="1">
@@ -109,7 +116,7 @@ class Sidebar extends React.Component {
                 </Col>
               </Row>
             </div>
-          </div> */}
+          </div>
 
         </div>
       </div>

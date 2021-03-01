@@ -15,13 +15,15 @@ import { ThemeProvider } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
-import ALPSlogo from "ALPSlogo.png";
+import { Row, Col, Card } from "reactstrap";
 import themecol from "ColorTheme";
+import LoginTabs from "components/login/LoginTabs";
 
+import logoAlps from "ALPSlogo.png";
 import logoca from "assets/logos/ca-logo.png";
 import logoifm from "assets/logos/ifm-logo.png";
-import { Row, Col, Card } from "reactstrap";
+import logopitch from "assets/logos/pitchin-logo.svg";
+import backgr1 from "assets/backgrounds/background1.jpg";
 
 function Copyright() {
   return (
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: ALPSlogo,
+    backgroundImage: logoAlps,
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -71,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide({ setToken }) {
   const classes = useStyles();
-  // eslint-disable-next-line no-unused-vars
   const [userToken, setUserToken] = useState();
 
   return (
@@ -79,14 +80,17 @@ export default function SignInSide({ setToken }) {
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
 
-        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={false} sm={4} md={7} className={classes.image}>
+          <div className="hover08 img-background">
+          <figure><img className="img-background" src={backgr1} /></figure>
+          </div>
+        </Grid>
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             <Box mb={10}>
               <Grid item>
                 <Tabs
-                  value={"23"}
-                  onChange={undefined}
                   indicatorColor="primary"
                   textColor="primary"
                   centered
@@ -98,8 +102,7 @@ export default function SignInSide({ setToken }) {
               </Grid>
             </Box>
             <Avatar className={classes.avatar}>
-              {/* <LockOutlinedIcon /> */}
-              <img src={ALPSlogo}/>
+              <img src={logoAlps} />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
@@ -137,14 +140,19 @@ export default function SignInSide({ setToken }) {
               <Box mt={18} px={10}>
                 <div className="logo">
                   <Row>
-                    <Col >
-                      <div className="logo-img">
-                        <img src={logoca} alt="react-logo" />
+                    <Col>
+                      <div className="img-logo">
+                        <img src={logoca} alt="react-logo" align="bottom" />
                       </div>
                     </Col>
                     <Col>
-                      <div className="logo-img">
+                      <div className="img-logo">
                         <img src={logoifm} alt="react-logo" />
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <img src={logopitch} alt="react-logo" />
                       </div>
                     </Col>
                   </Row>
