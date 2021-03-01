@@ -31,6 +31,11 @@ import {
 import { Link } from "react-router-dom";
 
 import SettingsInputAntennaOutlinedIcon from "@material-ui/icons/SettingsInputAntennaOutlined";
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import GraphicEqIcon from '@material-ui/icons/GraphicEq';
+
+
 import {
   dashboard24HoursPerformanceChart,
   dashboardEmailStatisticsChart,
@@ -67,7 +72,7 @@ class Dashboard extends React.Component {
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-money-coins text-success" />
+                        <AccountBalanceWalletIcon fontSize="large" style={{color: '#51cbce'}}/>
                       </div>
                     </Col>
                     <Col md="8" xs="7">
@@ -95,7 +100,7 @@ class Dashboard extends React.Component {
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-money-coins" />
+                      <AccountBalanceIcon fontSize="large" style={{color: '#51cbce'}}/>
                       </div>
                     </Col>
                     <Col md="8" xs="7">
@@ -123,7 +128,7 @@ class Dashboard extends React.Component {
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-vector text-danger" />
+                      <GraphicEqIcon fontSize="large" style={{color: '#51cbce'}}/>
                       </div>
                     </Col>
                     <Col md="8" xs="7">
@@ -152,7 +157,7 @@ class Dashboard extends React.Component {
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
-                        <SettingsInputAntennaOutlinedIcon fontSize="large" />
+                        <SettingsInputAntennaOutlinedIcon fontSize="large" style={{color: '#51cbce'}}/>
                       </div>
                     </Col>
                     <Col md="8" xs="7">

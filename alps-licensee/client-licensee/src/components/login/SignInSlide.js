@@ -24,6 +24,7 @@ import logoca from "assets/logos/ca-logo.png";
 import logoifm from "assets/logos/ifm-logo.png";
 import logopitch from "assets/logos/pitchin-logo.svg";
 import backgr1 from "assets/backgrounds/background1.jpg";
+import backgr2 from "assets/backgrounds/background2.jpg";
 
 function Copyright() {
   return (
@@ -74,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide({ setToken }) {
   const classes = useStyles();
   const [userToken, setUserToken] = useState();
+  // 0 - LICENSEE
+  // 1 = LICENSOR
+  const [screenState, setScreenState] = useState(0);
 
   return (
     <ThemeProvider theme={themecol}>
@@ -82,7 +86,7 @@ export default function SignInSide({ setToken }) {
 
         <Grid item xs={false} sm={4} md={7} className={classes.image}>
           <div className="hover08 img-background">
-          <figure><img className="img-background" src={backgr1} /></figure>
+          <figure><img className="img-background" src={screenState ? backgr2 : backgr1} /></figure>
           </div>
         </Grid>
 
@@ -95,8 +99,8 @@ export default function SignInSide({ setToken }) {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="Licensee" />
-                  <Tab label="Licensor" />
+                  <Tab label="Licensee" onClick={() => {console.log(screenState); setScreenState(0);}}/>
+                  <Tab label="Licensor" onClick={() => {console.log(screenState); setScreenState(1);}}/>
                   <Tab label="Financial" />
                 </Tabs>
               </Grid>

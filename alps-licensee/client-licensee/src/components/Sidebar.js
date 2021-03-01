@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/*eslint-disable*/
 /*!
 
 =========================================================
@@ -22,18 +23,16 @@ import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-import {
-  Row,
-  Col,
-} from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import logo from "assets/logos/ALPSlogo_noSoftware.png";
 
 import logocam from "assets/logos/ca-logo-white.png";
 import logoifm from "assets/logos/ifm-logo.png";
+import logoPitch from "assets/logos/pitchin-logo-white.svg";
+import Box from "@material-ui/core/Box";
 // import logoca from "assets/logos/ca-logo.png";
 // import logoifm from "assets/logos/ifm-logo.png";
-// import { Row, Col } from "reactstrap";
 
 var ps;
 
@@ -100,24 +99,29 @@ class Sidebar extends React.Component {
               }
             })}
           </Nav>
-
-          <div className="fixed-bottom">
-            <div className="logo">
-              <Row>
-                <Col md="1">
-                  <div className="logo-img">
-                    <img src={logocam} alt="react-logo" />
+          <Box mt={25} px={1}>
+            <Row>
+              <Col>
+                <div className="img-logo">
+                  <img src={logocam} alt="react-logo" />
+                </div>
+              </Col>
+              <Col>
+                <div className="img-logo">
+                  <img src={logoifm} alt="react-logo" />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Box px={8}>
+                  <div className="img-logo">
+                    <img src={logoPitch} alt="react-logo" />
                   </div>
-                </Col>
-                <Col md="1">
-                  <div className="logo-img">
-                    <img src={logoifm} alt="react-logo" />
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </div>
-
+                </Box>
+              </Col>
+            </Row>
+          </Box>
         </div>
       </div>
     );

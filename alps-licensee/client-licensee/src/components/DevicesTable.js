@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
@@ -62,7 +63,7 @@ function RowF(props) {
 
   return (
     <React.Fragment>
-      <TableRow className={classes.root}>
+      <TableRow className={classes.root}  onClick={() => setOpen(!open)}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -177,7 +178,7 @@ const rowss = [
   createData("Device 4", 356, 16.0, 49),
 ];
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable(props) {
   const [rows, setRows] = useState(rowss);
   const [searched, setSearched] = useState("");
 
@@ -204,7 +205,7 @@ const cancelSearch = () => {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
+            <TableCell>{console.log("ID::" + props.id)}</TableCell>
             <TableCell>Device</TableCell>
             <TableCell align="right">ID</TableCell>
             <TableCell align="right">Price Per Unit ($)</TableCell>

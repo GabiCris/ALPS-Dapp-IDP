@@ -4,6 +4,7 @@ import SignInSide from "components/login/SignInSlide";
 import LicenseeLayout from "./layouts/Licensee";
 import PropTypes from "prop-types";
 import Logout from "components/login/Logout";
+// import Devices from "./views/Devices";
 
 export default function App() {
   const [token, setToken] = useState();
@@ -26,6 +27,10 @@ export default function App() {
     return (
       <div className="App">
         <Switch>
+          <Route
+            path="/licensee/devices/:id"
+            render={(props) => <LicenseeLayout {...props} />}
+          ></Route>
           <Route
             path="/licensee"
             render={(props) => <LicenseeLayout {...props} />}

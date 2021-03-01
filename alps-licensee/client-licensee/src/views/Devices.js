@@ -1,17 +1,31 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import CollapsibleTable from "components/DevicesTable";
-
-
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Row,
-  Col,
-} from "reactstrap";
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  withRouter,
+} from "react-router-dom";
+
+import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
 class Devices extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {id: ""};
+  }
+  componentDidMount() {
+    this.setState({
+      // eslint-disable-next-line react/prop-types
+      id: this.props.match.params.id
+    });
+    // eslint-disable-next-line react/prop-types
+    console.log("id in devices:::   " + this.props.match.params.id);
+  }
+
   render() {
     return (
       <>
@@ -23,7 +37,7 @@ class Devices extends React.Component {
                   <CardTitle tag="h4">Active Devices</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <CollapsibleTable />
+                  <CollapsibleTable id={this.state.id}/>
                 </CardBody>
               </Card>
             </Col>
@@ -34,4 +48,4 @@ class Devices extends React.Component {
   }
 }
 
-export default Devices;
+export default withRouter(Devices);
