@@ -99,7 +99,7 @@ class Sidebar extends React.Component {
               }
             })}
           </Nav>
-          <Box mt={25} px={1}>
+          <Box mt={18} px={1}>
             <Row>
               <Col>
                 <div className="img-logo">

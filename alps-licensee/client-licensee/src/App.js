@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import SignInSide from "components/login/SignInSlide";
 import LicenseeLayout from "./layouts/Licensee";
@@ -6,9 +6,28 @@ import PropTypes from "prop-types";
 import Logout from "components/login/Logout";
 // import Devices from "./views/Devices";
 
-export default function App() {
+export default function App(props) {
   const [token, setToken] = useState();
+  const [loading, setLoading] = useState(true);
+  const [drizzleState, setDrizzleState] = useState(null);
 
+  useEffect(() => {
+    const { drizzle } = props;
+
+    // subscribe to changes in the store
+    const unsubscribe = drizzle.store.subscribe(() => {
+      // every time the store updates, grab the state from drizzle
+      setDrizzleState(drizzle.store.getState());
+
+      // check to see if it's ready, if so, update local component state
+      if (drizzleState.drizzleStatus.initialized) {
+       setLoading(false);
+      }
+    });
+    return function cleanup() {
+      unsubscribe();
+    };
+  });
   console.log("Storage Token:" + localStorage.getItem("CurrentToken"));
   if (!token && !localStorage.getItem("CurrentToken")) {
     console.log("Showing False Token:" + token);
@@ -26,6 +45,7 @@ export default function App() {
 
     return (
       <div className="App">
+        {console.log("LOADING:" + loading)} {console.log( " DRIZZLESTATE: ")} {console.log(  drizzleState )}
         <Switch>
           <Route
             path="/licensee/devices/:id"

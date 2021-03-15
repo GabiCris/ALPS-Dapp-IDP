@@ -4,6 +4,7 @@ import LicensorDetails from "./views/LicensorDetails";
 import Payments from "./views/Payments";
 import SmartLicense from "./views/SmartLicense";
 import Devices from "./views/Devices";
+import IPRegistry from "./views/IPRegistry";
 import ActiveLicenses from "views/ActiveLicenses";
 
 var routes = [
@@ -22,6 +23,13 @@ var routes = [
     layout: "/licensee",
   },
   {
+    path: "/licenses",
+    name: "Active Licenses",
+    icon: "nc-icon nc-vector",
+    component: ActiveLicenses,
+    layout: "/licensee",
+  },
+  {
     path: "/devices",
     name: "Devices",
     icon: "nc-icon nc-tile-56",
@@ -36,11 +44,12 @@ var routes = [
     component: Payments,
     layout: "/licensee",
   },
+
   {
-    path: "/licenses",
-    name: "Active Licenses",
+    path: "/ip",
+    name: "IP Registry",
     icon: "nc-icon nc-vector",
-    component: ActiveLicenses,
+    component: IPRegistry,
     layout: "/licensee",
   },
 

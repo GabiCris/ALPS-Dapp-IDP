@@ -25,6 +25,10 @@ import logoifm from "assets/logos/ifm-logo.png";
 import logopitch from "assets/logos/pitchin-logo.svg";
 import backgr1 from "assets/backgrounds/background1.jpg";
 import backgr2 from "assets/backgrounds/background2.jpg";
+import backman from "assets/backgrounds/man-backgr.jpg";
+import backFin from "assets/backgrounds/back-bank.jpg";
+import backVendor from "assets/backgrounds/back-vendor.jpg";
+
 
 function Copyright() {
   return (
@@ -86,7 +90,7 @@ export default function SignInSide({ setToken }) {
 
         <Grid item xs={false} sm={4} md={7} className={classes.image}>
           <div className="hover08 img-background">
-          <figure><img className="img-background" src={screenState ? backgr2 : backgr1} /></figure>
+          <figure><img className="img-background" src={screenState ? backVendor : backman} /></figure>
           </div>
         </Grid>
 
@@ -109,7 +113,7 @@ export default function SignInSide({ setToken }) {
               <img src={logoAlps} />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              
             </Typography>
             <form className={classes.form} noValidate>
               <TextField
@@ -117,10 +121,10 @@ export default function SignInSide({ setToken }) {
                 margin="normal"
                 required
                 fullWidth
-                id="user-address"
-                label="ID"
-                name="ID"
-                autoComplete="Address"
+                id="access-key"
+                label="Access Key"
+                name="Access Key"
+                autoComplete="Key"
                 autoFocus
                 onChange={(e) => {
                   setUserToken(e.target.value);
@@ -135,7 +139,7 @@ export default function SignInSide({ setToken }) {
                 className={classes.submit}
                 onClick={() => setToken(userToken)}
               >
-                Sign In
+                Connect
               </Button>
               <Grid container></Grid>
               <Box mt={5}>

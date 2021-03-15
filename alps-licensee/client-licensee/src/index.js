@@ -17,25 +17,23 @@ import MyStringStore from "./contracts/MyStringStore.json";
 import App from "App";
 
 // let drizzle know what contracts we want and how to access our test blockchain
-// const options = {
-//   contracts: [MyStringStore],
-//   web3: {
-//     fallback: {
-//       type: "ws",
-//       url: "ws://127.0.0.1:9545",
-//     },
-//   },
-// };
-// setup drizzle
-//const drizzle = new Drizzle(options);
-//ReactDOM.render(<App drizzle={drizzle} />, document.getElementById('root'));
+const options = {
+  contracts: [MyStringStore],
+  web3: {
+    fallback: {
+      type: "ws",
+      url: "ws://127.0.0.1:9545",
+    },
+  },
+};
+const drizzle = new Drizzle(options);
 
 const hist = createBrowserHistory();
 
 
 ReactDOM.render(
   <Router history={hist}>
-    <App/>
+    <App drizzle={drizzle}/>
   </Router>,
   document.getElementById("root")
 );
