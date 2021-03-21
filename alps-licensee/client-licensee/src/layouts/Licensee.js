@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 
 import PerfectScrollbar from "perfect-scrollbar";
@@ -59,15 +60,15 @@ class Dashboard extends React.Component {
               return (
                 <Route
                   path={prop.layout + prop.path}
-                  component={prop.component}
+                 // component={prop.component}
+                  render={() => <prop.component {...this.props}/>}
                   key={key}
                 />
-              ); 
+              );
             })}
           </Switch>
           <Footer fluid />
         </div>
-        
       </div>
     );
   }
