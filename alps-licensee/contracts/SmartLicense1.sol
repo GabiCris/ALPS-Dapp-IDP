@@ -6,6 +6,20 @@ contract SmartLicense1 {
     string public devices = "150";
     string public startDate = "10/08/2021";
 
+    uint256 public dueAmount = 100;
+
+    constructor() public {
+        setDevices("666");
+    }
+
+    function acknowledgePayment(uint256 amount) public {
+        setDueAmount(dueAmount - amount);
+    }
+
+    function computeRoyalty(uint256 amount) public {
+        setDueAmount(dueAmount + amount);
+    }
+
     function setLicensee(string memory x) public {
         licensee = x;
     }
@@ -20,5 +34,9 @@ contract SmartLicense1 {
 
     function setStartDate(string memory x) public {
         startDate = x;
+    }
+
+    function setDueAmount(uint256 x) public {
+        dueAmount = x;
     }
 }

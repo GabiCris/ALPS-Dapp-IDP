@@ -22,10 +22,10 @@ const columns = [
 ];
 
 const data = [
-  ["01241", "Bluetooth v21.4", "25", "150.000"],
-  ["91236", "Wi-Free 2", "570", "1.7b"],
-  ["87142", "15G - Wave", "5", "800"],
-  ["00132", "Tunnel Cable", "13", "93.750"],
+  ["1111", "Bluetooth v21.4", "2"],
+  ["2222", "Wi-Free 2", "1"],
+  ["3333", "15G - Wave", "1"],
+  ["5555", "Tunnel Cable", "1"],
 ];
 
 const options = {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import CollapsibleTable from "components/DevicesTable";
+import DevicesTable from "components/table/DevicesTable";
 import {
   BrowserRouter as Router,
   Switch,
@@ -37,7 +37,7 @@ class Devices extends React.Component {
                   <CardTitle tag="h4">Active Devices</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <CollapsibleTable id={this.state.id}/>
+                  <DevicesTable/>
                 </CardBody>
               </Card>
             </Col>

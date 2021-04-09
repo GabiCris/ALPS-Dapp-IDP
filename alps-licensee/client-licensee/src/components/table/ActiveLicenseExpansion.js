@@ -17,7 +17,7 @@ import { ActLineChart } from "components/charts/ActLicLineChart";
 import dataActLine from "components/charts/data-actLic-line.json";
 import { Link } from "react-router-dom";
 
-class ActiveLicenses extends React.Component {
+class ActiveLicensesExpansion extends React.Component {
   render() {
     return (
       <>
@@ -134,4 +134,4 @@ class ActiveLicenses extends React.Component {
   }
 }
 
-export default ActiveLicenses;
+export default ActiveLicensesExpansion;
