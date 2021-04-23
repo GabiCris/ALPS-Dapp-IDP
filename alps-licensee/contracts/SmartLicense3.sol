@@ -5,6 +5,11 @@ contract SmartLicense3 {
     string public licensor = "Radio And Television Broadcasting And Communications Equipment";
     string public devices = "320";
     string public startDate = "10/08/2021";
+    string constant contractId = "SmartLicense3";
+
+    function getContractType() public pure returns (string memory) {
+        return contractId;
+    }
 
     function setLicensee(string memory x) public {
         licensee = x;

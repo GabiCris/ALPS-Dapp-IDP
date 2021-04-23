@@ -12,7 +12,61 @@ import mockData from "assets/mock-data/activeLicensesTable-data";
 class ActiveLicensesTable extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tableData: [],
+    };
   }
+
+  fitDataTest(data) {
+    let transformedData = [];
+    let i = 1;
+
+    // for (const [address, contractObj] of this.props.contractObjects.entries()) {
+    //   // let v = await contractObj.methods.dueAmount().call();
+    //   //console.log(address, contractObj);
+    // }
+
+    for (let item of data) {
+      if (item != null) {
+        // transformedData = [
+        //   ...transformedData,
+        //   ...[i, item, undefined, undefined, undefined, undefined]
+        // ];
+        transformedData.push([
+          i,
+          item,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ]);
+        i++;
+      }
+    }
+    console.log("tr data: ", transformedData);
+    return transformedData;
+  }
+
+  fitData(data) {
+    let transformedData = [];
+    let i = 1;
+
+    for (const [contrObj, dataItem] of this.props.contractObjects.entries()) {
+      console.log(dataItem);
+      dataItem.unshift(i);
+      transformedData.push(dataItem);
+      i++;
+    }
+    console.log("ACTIVELIC TABLE:", transformedData);
+    return transformedData;
+  }
+
+  componentDidMount() {
+    // this.setState({
+    //   tableData: this.fitData(this.props.contractObjects),
+    // });
+  }
+
   render() {
     const columns = [
       {
@@ -22,19 +76,7 @@ class ActiveLicensesTable extends React.Component {
         },
       },
       {
-        name: "Title",
-        options: {
-          filter: true,
-        },
-      },
-      {
-        name: "Start Date",
-        options: {
-          filter: true,
-        },
-      },
-      {
-        name: "Related Devices",
+        name: "Name",
         options: {
           filter: true,
         },
@@ -53,9 +95,23 @@ class ActiveLicensesTable extends React.Component {
           sort: false,
         },
       },
+      {
+        name: "Due Amount",
+        options: {
+          filter: true,
+          sort: false,
+        },
+      },
     ];
     const data = [
-      [1, "keys[0]", undefined, undefined, "licenseeData && licenseeData.value", "licensorData && licensorData.value"]
+      [
+        1,
+        "keys[0]",
+        undefined,
+        undefined,
+        "licenseeData && licenseeData.value",
+        "licensorData && licensorData.value",
+      ],
     ];
 
     const options = {
@@ -114,13 +170,17 @@ class ActiveLicensesTable extends React.Component {
       },
     };
 
+    // let aux = this.fitData(this.props.contractObjects);
+    // console.log("contract objects", this.props.contractObjects);
+
     return (
       <MuiThemeProvider theme={theme}>
         <MUIDataTable
           title={"Active Licenses"}
-        //  data={mockData}
-         // eslint-disable-next-line react/prop-types
-         data={this.props.data}
+          //  data={mockData}
+          // eslint-disable-next-line react/prop-types
+          // data={this.fitData(this.props.contractObjects)}
+          data={this.props.data}
           columns={columns}
           options={options}
           components={components}

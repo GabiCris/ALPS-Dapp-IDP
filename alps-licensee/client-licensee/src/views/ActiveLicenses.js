@@ -2,42 +2,20 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 
-import {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardBody,
-  CardTitle,
-  Row,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
-  Col,
-} from "reactstrap";
-import CardSubtitle from "reactstrap/lib/CardSubtitle";
-import { ActLineChart } from "components/charts/ActLicLineChart";
-import dataActLine from "components/charts/data-actLic-line.json";
-import dataActLine2 from "components/charts/data-actLic-line2.json";
-import { Link } from "react-router-dom";
+import { Button, Row, Col } from "reactstrap";
 import ActiveLicensesTable from "components/table/ActiveLicensesTable";
-import { useParams } from "react-router";
 
 class ActiveLicenses extends React.Component {
   constructor(props) {
     super(props);
+    this.getTableData = this.getTableData.bind(this);
     // TODO: for 1 contract: convert state keys to dictionary w key: dataName; value: cacheCallValue
     // For n contracts: dict of key: contractName; value: dictionary of 1 contract
     this.state = {
       contract1Map: null,
-      licenseeKey: null,
-      licensorKey: null,
-      devicesKey: null,
-      licenseeKey2: null,
-      licensorKey2: null,
-      devicesKey2: null,
-      licenseeKey3: null,
-      licensorKey3: null,
-      devicesKey3: null,
+      aux: null,
+      contracts: [],
+      keysArr: [],
     };
   }
 
@@ -52,90 +30,110 @@ class ActiveLicenses extends React.Component {
 
   componentDidMount() {
     const { drizzle } = this.props;
-    const contract1 = drizzle.contracts.SmartLicense1;
-    const contract2 = drizzle.contracts.SmartLicense2;
-    const contract3 = drizzle.contracts.SmartLicense3;
-    console.log(contract1);
-    let licenseeKeyA = contract1.methods["licensee"].cacheCall();
-    let licensorKeyA = contract1.methods["licensor"].cacheCall();
-    let devicesKeyA = contract1.methods["devices"].cacheCall();
-    let licenseeKey2 = contract2.methods["licensee"].cacheCall();
-    let licensorKey2 = contract2.methods["licensor"].cacheCall();
-    let devicesKey2 = contract2.methods["devices"].cacheCall();
-    let licenseeKey3 = contract3.methods["licensee"].cacheCall();
-    let licensorKey3 = contract3.methods["licensor"].cacheCall();
-    let devicesKey3 = contract3.methods["devices"].cacheCall();
-    //let contract1Map = this.getContractMap(contract1);
+
+    let auxArr = [];
+    for (let contract of drizzle.contractList) {
+      try {
+        let licenseeKey = contract.methods["licensee"].cacheCall();
+        let licensorKey = contract.methods["licensor"].cacheCall();
+        auxArr.push([contract.contractName, licenseeKey, licensorKey]);
+      } catch (e) {
+        console.log(e);
+      }
+    }
     this.setState({
-      licenseeKey: licenseeKeyA,
-      licensorKey: licensorKeyA,
-      devicesKey: devicesKeyA,
-      licenseeKey2: licenseeKey2,
-      licensorKey2: licensorKey2,
-      devicesKey2: devicesKey2,
-      licenseeKey3: licenseeKey3,
-      licensorKey3: licensorKey3,
-      devicesKey3: devicesKey3,
+      keysArr: [...this.state.keysArr, auxArr],
+    });
+    //let contract1Map = this.getContractMap(contract1);
+    // let contracts = drizzle.contracts;
+    // for (var key of Object.keys(drizzle.contracts)) {
+    //   console.log(key + " -> " + drizzle.contracts[key]);
+    //   let licenseeKey = contracts[key].methods["licensee"].cacheCall();
+    //   let licensorKey = contracts[key].methods["licensor"].cacheCall();
+    //   keysM.set(contracts[key], [licenseeKey, licensorKey]);
+    // }
+    this.setState({
+      contracts: JSON.parse(localStorage.getItem("contracts")),
     });
   }
 
-  getTableData() {
-    const { SmartLicense1 } = this.props.drizzleState.contracts;
-    const { SmartLicense2 } = this.props.drizzleState.contracts;
-    const { SmartLicense3 } = this.props.drizzleState.contracts;
-    const licensorData = SmartLicense1.licensor[this.state.licensorKey];
-    const licenseeData = SmartLicense1.licensee[this.state.licenseeKey];
-    const devicesData = SmartLicense1.devices[this.state.devicesKey];
-    const licensorData2 = SmartLicense2.licensor[this.state.licensorKey2];
-    const licenseeData2 = SmartLicense2.licensee[this.state.licenseeKey2];
-    const devicesData2 = SmartLicense2.devices[this.state.devicesKey2];
-    const licensorData3 = SmartLicense3.licensor[this.state.licensorKey3];
-    const licenseeData3 = SmartLicense3.licensee[this.state.licenseeKey3];
-    const devicesData3 = SmartLicense3.devices[this.state.devicesKey3];
+  // componentDidUpdate() {
+  //   let auxArr = [];
+  //   for (let contract of this.props.drizzle.contractList) {
+  //     try {
+  //       let licenseeKey = contract.methods["licensee"].cacheCall();
+  //       let licensorKey = contract.methods["licensor"].cacheCall();
+  //       console.log("1 entry:", contract, licenseeKey, licensorKey);
+  //       //keysM.set(contract, [licenseeKey, licensorKey]);
+  //       auxArr.push([contract.contractName, licenseeKey, licensorKey]);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  //   console.log("aux", auxArr);
+  //   this.setState({
+  //     keysArr: [...this.state.keysArr, auxArr],
+  //   });
+  // }
 
-    let keys = Object.keys(this.props.drizzle.contracts);
-    let data = [
-      [
-        1,
-        keys[1],
-        undefined,
-        devicesData && devicesData.value,
-        licenseeData && licenseeData.value,
-        licensorData && licensorData.value,
-      ],
-      [
-        2,
-        keys[2],
-        undefined,
-        devicesData2 && devicesData2.value,
-        licenseeData2 && licenseeData2.value,
-        licensorData2 && licensorData2.value,
-      ],
-      [
-        3,
-        keys[3],
-        undefined,
-        devicesData3 && devicesData3.value,
-        licenseeData3 && licenseeData3.value,
-        licensorData3 && licensorData3.value,
-      ],
-    ];
-    return data;
+  getTableData() {
+    let newData = [];
+    let i = 0;
+    // console.log("state map", this.state.keysMap);
+    // for (let contract of contracts) {
+    //   const licensee = contract.licensee[this.state.keysArr[i][0]];
+    //   const licensor = contract.licensor[this.state.keysArr[i][1]];
+    //   newData.push([i, licensee && licensee.value, licensor && licensor.value]);
+    //   i++;
+    // }
+    console.log("state", this.props.drizzleState);
+    console.log("array of keys:", this.state.keysArr);
+    for (let a of this.state.keysArr) {
+      for (let instance of a) {
+        if (instance.length === 3) {
+          let contractName = instance[0];
+          let currentContract = this.props.drizzleState.contracts[contractName];
+          console.log("Contract name, contract", contractName, currentContract, instance[1], instance[2]);
+          const licensee = currentContract.licensee[instance[1]];
+          const licensor = currentContract.licensor[instance[2]];
+          let dueAmount = null;
+          if (contractName === "SmartLicense1") {
+            let dueAm = currentContract.dueAmount[instance[1]];
+          }
+          newData.push([
+            i,
+            contractName,
+            licensee && licensee.value,
+            licensor && licensor.value,
+            dueAmount && dueAmount.value,
+          ]);
+          i++;
+        }
+      }
+    }
+    console.log("data ACT LIC GET FUNC:", newData);
+    // console.log("EXAMPLE:", this.props.drizzleState.contracts["0xb4715De57a52921a165BeAB9bDA33bc66204CC69"].licensee["0x0"]);
+
+    return newData;
   }
 
   render() {
-    // DICT. keys are the contract names
-    console.log(this.props.drizzle.contracts);
-    console.log(this.state.contract1Map);
     let tableData = this.getTableData();
     return (
       <>
-        {console.log(" DRIZZLESTATE ACTI LIC: ")}{" "}
-        {console.log(this.props.drizzle)}
         <div className="content">
           <Row>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.props.onRefresh}
+            >
+              Refresh
+            </Button>
+          </Row>
+          <Row>
             <Col md="12">
-              <ActiveLicensesTable data={tableData} />
+              <ActiveLicensesTable {...this.props} data={tableData} />
             </Col>
           </Row>
         </div>

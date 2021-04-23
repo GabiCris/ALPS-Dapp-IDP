@@ -5,6 +5,11 @@ contract SmartLicense2 {
     string public licensor = "Motor Vehicles";
     string public devices = "540";
     string public startDate = "10/08/2021";
+    string constant contractId = "SmartLicense2";
+
+    function getContractType() public pure returns (string memory) {
+        return contractId;
+    }
 
     function setLicensee(string memory x) public {
         licensee = x;

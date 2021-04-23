@@ -5,7 +5,8 @@ contract SmartLicense1 {
     string public licensor = "Other Specialty Stores";
     string public devices = "150";
     string public startDate = "10/08/2021";
-
+    string public contractId = "SmartLicense1";
+    string public identifier = "SmartLicense1";
     uint256 public dueAmount = 100;
 
     constructor() public {
@@ -18,6 +19,10 @@ contract SmartLicense1 {
 
     function computeRoyalty(uint256 amount) public {
         setDueAmount(dueAmount + amount);
+    }
+
+    function getContractType() public returns (string memory) {
+        return contractId;
     }
 
     function setLicensee(string memory x) public {
