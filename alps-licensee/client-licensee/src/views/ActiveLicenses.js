@@ -36,7 +36,18 @@ class ActiveLicenses extends React.Component {
       try {
         let licenseeKey = contract.methods["licensee"].cacheCall();
         let licensorKey = contract.methods["licensor"].cacheCall();
-        auxArr.push([contract.contractName, licenseeKey, licensorKey]);
+        let dueAmountKey;
+        try {
+          dueAmountKey = contract.methods["dueAmount"].cacheCall();
+        } catch (e) {
+          console.log(e);
+        }
+        auxArr.push([
+          contract.contractName,
+          licenseeKey,
+          licensorKey,
+          dueAmountKey,
+        ]);
       } catch (e) {
         console.log(e);
       }
@@ -57,48 +68,33 @@ class ActiveLicenses extends React.Component {
     });
   }
 
-  // componentDidUpdate() {
-  //   let auxArr = [];
-  //   for (let contract of this.props.drizzle.contractList) {
-  //     try {
-  //       let licenseeKey = contract.methods["licensee"].cacheCall();
-  //       let licensorKey = contract.methods["licensor"].cacheCall();
-  //       console.log("1 entry:", contract, licenseeKey, licensorKey);
-  //       //keysM.set(contract, [licenseeKey, licensorKey]);
-  //       auxArr.push([contract.contractName, licenseeKey, licensorKey]);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  //   console.log("aux", auxArr);
-  //   this.setState({
-  //     keysArr: [...this.state.keysArr, auxArr],
-  //   });
-  // }
-
   getTableData() {
     let newData = [];
     let i = 0;
-    // console.log("state map", this.state.keysMap);
-    // for (let contract of contracts) {
-    //   const licensee = contract.licensee[this.state.keysArr[i][0]];
-    //   const licensor = contract.licensor[this.state.keysArr[i][1]];
-    //   newData.push([i, licensee && licensee.value, licensor && licensor.value]);
-    //   i++;
-    // }
     console.log("state", this.props.drizzleState);
     console.log("array of keys:", this.state.keysArr);
     for (let a of this.state.keysArr) {
       for (let instance of a) {
-        if (instance.length === 3) {
+        if (instance.length >= 3) {
           let contractName = instance[0];
           let currentContract = this.props.drizzleState.contracts[contractName];
-          console.log("Contract name, contract", contractName, currentContract, instance[1], instance[2]);
+          console.log(
+            "Contract name, contract",
+            contractName,
+            currentContract,
+            instance[1],
+            instance[2]
+          );
           const licensee = currentContract.licensee[instance[1]];
           const licensor = currentContract.licensor[instance[2]];
-          let dueAmount = null;
+          let dueAmount;
+          try {
+            dueAmount = currentContract.dueAmount[instance[3]];
+          } catch (e) {
+            console.log(e);
+          }
           if (contractName === "SmartLicense1") {
-            let dueAm = currentContract.dueAmount[instance[1]];
+            dueAmount = currentContract.dueAmount[instance[3]];
           }
           newData.push([
             i,

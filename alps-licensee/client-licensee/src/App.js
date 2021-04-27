@@ -17,20 +17,59 @@ import Web3 from "web3";
 import getContractObjects from "scripts/getContractObjects";
 import getContractWeb3Obj from "scripts/getContractWeb3Obj";
 
+let provider = new Web3.providers.HttpProvider("http://localhost:8545");
+var web3 = new Web3(provider);
+// let contractObjects = undefined;// = getContractObjects(web3, SmartLicense1);
+// (async () => {
+//   contractObjects = await getContractObjects(web3, SmartLicense1);
+//   console.log('Test!');
+// })();
+
+// function waitForDrizzle(){
+//   if(typeof contractObjects !== "undefined"){
+//       //variable exists, do what you want
+//   }
+//   else{
+//     console.log("Timeout triggered. WATING FOR DRIZZLE");
+//     setTimeout(waitForDrizzle, 250);
+//   }
+// }
+//  waitForDrizzle();
+
+// let drizzle = undefined;
+// getContractObjects()
+//   .then((result) => {
+//     const options = {
+//       contracts: result,
+//       web3: {
+//         fallback: {
+//           type: "ws",
+//           url: "ws://127.0.0.1:8545",
+//         },
+//       },
+//     };
+//     drizzle = new Drizzle(options);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+// nothing else
+
 // let drizzle know what contracts we want and how to access our test blockchain
+//console.log("contract obj initialized", contractObjects);
 const options = {
-  contracts: [SmartLicense1, SmartLicense2, SmartLicense3],
+  contracts: [],
   web3: {
     fallback: {
       type: "ws",
       url: "ws://127.0.0.1:8545",
     },
-    
+
   },
 };
-const drizzle = new Drizzle(options);
-let provider = new Web3.providers.HttpProvider("http://localhost:8545");
-var web3 = new Web3(provider);
+// const drizzle = new Drizzle(options);
+// console.log("Drizle initialized", drizzle);
 
 async function getArtifact() {
   // const truffleContract = await web3.artifactsToContract(
@@ -48,6 +87,9 @@ export default function App(props) {
   const [token, setToken] = useState();
   const [contracts, setContracts] = useState([]);
   const [contractObj, setContractObj] = useState([]);
+  const [drizzle, setDrizzle] = useState(new Drizzle(options));
+
+  
 
   const passedFunction = (e) => {
     e.preventDefault();
@@ -118,6 +160,21 @@ export default function App(props) {
     }
 
     useEffect(async () => {
+
+      // let contractObjects = await getContractObjects(web3, SmartLicense1);
+      // const optionsDrizzle = {
+      //   contracts: contractObjects,
+      //   web3: {
+      //     fallback: {
+      //       type: "ws",
+      //       url: "ws://127.0.0.1:8545",
+      //     },
+      
+      //   },
+      // };
+      // console.log(optionsDrizzle);
+      // setDrizzle(new Drizzle(optionsDrizzle));
+
       const data = localStorage.getItem("contracts");
       console.log("data:", data);
 
@@ -125,18 +182,8 @@ export default function App(props) {
         let aux = JSON.parse(data);
         setContracts(aux);
         // let obj = await getContractObjects(aux, web3, SmartLicense1);
-        let obj2 = await getContractWeb3Obj(drizzle, aux, web3, SmartLicense1);
+        //let obj2 = await getContractWeb3Obj(drizzle, aux, web3, SmartLicense1);
         //setContractObj(obj);
-        // console.log("contracts list:", Array.from(obj2.values()));
-        // let events = ["Mint"];
-        // for (const [address, contract] of obj2.entries()) {
-        //   let contractConfig = {
-        //     contractName: address,
-        //     web3Contract: contract,
-        //   };
-        //   drizzle.addContract(contractConfig, events);
-        // }
-        // console.log(drizzle);
       } else {
         let contractsArray = getContractsEth()
           .then(Array.from)
@@ -147,7 +194,7 @@ export default function App(props) {
     }, []);
 
     return (
-      <DrizzleContext.Provider drizzle={drizzle}>
+      <DrizzleContext.Provider drizzle={props.drizzle}>
         <DrizzleContext.Consumer>
           {(drizzleContext) => {
             const { drizzle, drizzleState, initialized } = drizzleContext;
@@ -158,7 +205,7 @@ export default function App(props) {
 
             // setContractObj(getContractObjects(contracts, web3, SmartLicense1));
             //console.log("STORAGE CONTRACTS: ", localStorage.getItem("contracts"));
-            console.log("PROPS CONTRACTS", contracts);
+            console.log("DRIZZLE  OBJ IN APP", drizzle);
             return (
               <div className="App">
                 {/* {console.log("APP DRIZZLESTATE: ", drizzleState, drizzleState.currentBlock)} */}

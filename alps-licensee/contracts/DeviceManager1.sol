@@ -1,8 +1,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract DeviceManager1 {
-    string public licensee = "DM1 Licensee";
-    string public licensor = "DM1 Licensor";
+    string public licensee = "Licensee1";
     // List of ips related to this device
     uint[] ips = [1111, 2222, 3333];
     string public deviceName = "Device 1";
@@ -27,9 +26,5 @@ contract DeviceManager1 {
 
     function setLicensee(string memory x) public {
         licensee = x;
-    }
-
-    function setLicensor(string memory x) public {
-        licensor = x;
     }
 }

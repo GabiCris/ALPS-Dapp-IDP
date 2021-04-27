@@ -31,21 +31,18 @@ class Payments extends React.Component {
   }
   componentDidMount() {
     const { drizzle, drizzleState } = this.props;
-    const contract1 = drizzle.contracts.SmartLicense1;
+    // const contract1 = drizzle.contracts.SmartLicense1;
 
-    let dueAmountKey = contract1.methods["dueAmount"].cacheCall();
+    // let dueAmountKey = contract1.methods["dueAmount"].cacheCall();
 
     //let contract1Map = this.getContractMap(contract1);
-    this.setState({
-      dueAmountKey: dueAmountKey,
-    });
   }
 
   getPaymentData() {
-    const { SmartLicense1 } = this.props.drizzleState.contracts;
-    const dueAmount = SmartLicense1.dueAmount[this.state.dueAmountKey];
-    let payment = dueAmount && dueAmount.value;
-    return payment;
+    // const { SmartLicense1 } = this.props.drizzleState.contracts;
+    // const dueAmount = SmartLicense1.dueAmount[this.state.dueAmountKey];
+    // let payment = dueAmount && dueAmount.value;
+    // return payment;
   }
 
   handleChange(event) {
@@ -91,7 +88,7 @@ class Payments extends React.Component {
                   >
                     Submit Payment
                   </Button> */}
-                  <p>
+                  {/* <p>
                     <strong>Due Payment: </strong>
                     <ContractData
                       drizzle={this.props.drizzle}
@@ -111,7 +108,7 @@ class Payments extends React.Component {
                     contract="SmartLicense1"
                     method="computeRoyalty"
                     labels={["Amount to add"]}
-                  />
+                  /> */}
                 </CardBody>
               </Card>
             </Col>

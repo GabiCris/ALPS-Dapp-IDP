@@ -1,8 +1,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract DeviceManager2 {
-    string public licensee = "DM2 Licensee";
-    string public licensor = "DM2 licensor";
+    string public licensee = "Licensee 1";
     // List of ips related to this device
     uint[] ips = [1111, 5555];
     string public deviceName = "Device 2";

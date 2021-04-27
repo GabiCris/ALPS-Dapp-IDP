@@ -1,12 +1,11 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract SmartLicense1 {
-    string public licensee = "Sally Beauty Holdings, Inc.";
+    string public licensee = "Licensee 1";
     string public licensor = "Other Specialty Stores";
     string public devices = "150";
     string public startDate = "10/08/2021";
     string public contractId = "SmartLicense1";
-    string public identifier = "SmartLicense1";
     uint256 public dueAmount = 100;
 
     constructor() public {
