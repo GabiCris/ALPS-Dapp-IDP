@@ -176,7 +176,7 @@ class ActiveLicensesTable extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <MUIDataTable
-          title={"Active Licenses"}
+         // title={"Active Licenses"}
           //  data={mockData}
           // eslint-disable-next-line react/prop-types
           // data={this.fitData(this.props.contractObjects)}

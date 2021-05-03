@@ -10,26 +10,26 @@ import ActiveLicenseExpansion from "components/table/ActiveLicenseExpansion";
 import mockData from "assets/mock-data/activeLicensesTable-data";
 import DevicesTableExpansion from "./DevicesTableExpansion";
 
-class DevicesTable extends React.Component {
+class LicensorDetailsTable extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  getTableData(){
-    let tableData = this.props.data;
-    let deviceData = this.props.deviceNo;
-    let devicePrice = this.props.devicePrice;
-    let index = 0;
-    for (let arr of tableData) {
-      arr.push(devicePrice[index])
-      arr.push(deviceData[index]);
-      index++;
+  getTableData() {
+    let licensorsMap = this.props.data;
+    let data = [];
+    let i = 0;
+    let r = 3;
+    for (let [licensor, occurances] of licensorsMap.entries()) {
+      data.push([i, licensor, r, occurances]);
+      r = r*7;
+      i++;
     }
-    return tableData.slice(0, -1);
+    return data;
   }
-  getExtensionsData(){
+  getExtensionsData() {
     let tableData = this.props.data;
-    return tableData[tableData.length-1];
+    return tableData[tableData.length - 1];
   }
   render() {
     const columns = [
@@ -40,24 +40,13 @@ class DevicesTable extends React.Component {
         },
       },
       {
-        name: "Device",
-        options: {
-          filter: false,
-        },
-      },{
-        name: "Address",
-        options: {
-          filter: false,
-        },
-      },
-      {
-        name: "Licensee",
+        name: "Licensor",
         options: {
           filter: true,
         },
       },
       {
-        name: "Price Per Unit",
+        name: "Website",
         options: {
           filter: true,
         },
@@ -69,7 +58,6 @@ class DevicesTable extends React.Component {
         },
       },
     ];
-    const data = [["Device 1"], ["Device 2"]];
 
     const options = {
       filter: true,
@@ -100,7 +88,10 @@ class DevicesTable extends React.Component {
         return (
           <TableRow>
             <TableCell colSpan={colSpan}>
-              <DevicesTableExpansion data={this.getExtensionsData()} dataIndex={rowMeta["dataIndex"]} />
+              <DevicesTableExpansion
+                data={[]}
+                dataIndex={rowMeta["dataIndex"]}
+              />
             </TableCell>
           </TableRow>
         );
@@ -134,7 +125,6 @@ class DevicesTable extends React.Component {
           data={this.getTableData()}
           // eslint-disable-next-line react/prop-types
           //data={this.props.data}
-          title={this.props.a}
           columns={columns}
           options={options}
           components={components}
@@ -144,4 +134,4 @@ class DevicesTable extends React.Component {
   }
 }
 
-export default DevicesTable;
+export default LicensorDetailsTable;

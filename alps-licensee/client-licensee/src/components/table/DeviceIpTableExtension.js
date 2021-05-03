@@ -3,7 +3,7 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import { CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
-const columns = ["IP", "Name", "Associated Smart License"];
+const columns = ["IP", "Associated Smart License"];
 
 // const data = [
 //   ["01241", "Bluetooth v21.4", "SL1"],

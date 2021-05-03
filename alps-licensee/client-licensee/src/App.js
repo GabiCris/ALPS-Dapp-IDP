@@ -65,31 +65,19 @@ const options = {
       type: "ws",
       url: "ws://127.0.0.1:8545",
     },
-
   },
 };
-// const drizzle = new Drizzle(options);
-// console.log("Drizle initialized", drizzle);
-
-async function getArtifact() {
-  // const truffleContract = await web3.artifactsToContract(
-  //   SmartLicense1
-  // );
-  // const contractInstance = await truffleContract.at(
-  //   "0x91f52659514631930Fe57A0afa45Ce9AE44E7f9D"
-  // );
-  // console.log("CONTRACT INSTANCCE", SmartLicense1.at("0x91f52659514631930Fe57A0afa45Ce9AE44E7f9D"));
-  // console.log("CONTRACT INSTANCCE", await SmartLicense1.licensee());
-  // return contractInstance;
-}
 
 export default function App(props) {
   const [token, setToken] = useState();
   const [contracts, setContracts] = useState([]);
   const [contractObj, setContractObj] = useState([]);
   const [drizzle, setDrizzle] = useState(new Drizzle(options));
+  const [transactionHistory, setTransactionHistory] = useState([]);
 
-  
+  function updateTransactionHistory(newHistory) {
+    setTransactionHistory(newHistory);
+  }
 
   const passedFunction = (e) => {
     e.preventDefault();
@@ -125,24 +113,6 @@ export default function App(props) {
     console.log(contractsSet);
     localStorage.setItem("contracts", JSON.stringify(Array.from(contractsSet)));
 
-    //   let contractObjects = new Map();
-    //   try {
-    //   // console.log("contracts", contracts)
-    //   for (let instance of contracts) {
-    //     if (instance != null) {
-    //       let aux = new web3.eth.Contract(SmartLicense1.abi, instance);
-
-    //         let licensee = await aux.methods.licensee().call();
-    //         let dueAmount = await aux.methods.dueAmount().call();
-
-    //       let dataItem = [aux, licensee, dueAmount]; // await aux.methods.licensee().call(), await aux.methods.dueAmount().call()];
-    //       contractObjects.set(instance, dataItem);
-    //     }
-    //   }
-    // } catch (error) {console.log(error)}
-    //   console.log("GET CONTRACT OBJECTS", contractObjects);
-    //   //return contractObjects;
-
     return contractsSet;
   }
 
@@ -160,21 +130,6 @@ export default function App(props) {
     }
 
     useEffect(async () => {
-
-      // let contractObjects = await getContractObjects(web3, SmartLicense1);
-      // const optionsDrizzle = {
-      //   contracts: contractObjects,
-      //   web3: {
-      //     fallback: {
-      //       type: "ws",
-      //       url: "ws://127.0.0.1:8545",
-      //     },
-      
-      //   },
-      // };
-      // console.log(optionsDrizzle);
-      // setDrizzle(new Drizzle(optionsDrizzle));
-
       const data = localStorage.getItem("contracts");
       console.log("data:", data);
 
@@ -206,6 +161,14 @@ export default function App(props) {
             // setContractObj(getContractObjects(contracts, web3, SmartLicense1));
             //console.log("STORAGE CONTRACTS: ", localStorage.getItem("contracts"));
             console.log("DRIZZLE  OBJ IN APP", drizzle);
+            const {
+              deviceManagers,
+              smartLicenses,
+              licensors,
+              ips,
+              deviceIds,
+              slIpMap,
+            } = props;
             return (
               <div className="App">
                 {/* {console.log("APP DRIZZLESTATE: ", drizzleState, drizzleState.currentBlock)} */}
@@ -221,6 +184,12 @@ export default function App(props) {
                         contracts={contracts}
                         contractObjects={contractObj}
                         onRefresh={getContractsEth}
+                        deviceManagers={deviceManagers}
+                        smartLicenses={smartLicenses}
+                        licensors={licensors}
+                        ips={ips}
+                        deviceIds={deviceIds}
+                        slIpMap={slIpMap}
                       />
                     )}
                   ></Route>
@@ -235,6 +204,14 @@ export default function App(props) {
                         contracts={contracts}
                         contractObjects={contractObj}
                         onRefresh={passedFunction}
+                        deviceManagers={deviceManagers}
+                        smartLicenses={smartLicenses}
+                        licensors={licensors}
+                        ips={ips}
+                        deviceIds={deviceIds}
+                        updateTransactionHistory={updateTransactionHistory}
+                        transactionHistory={transactionHistory}
+                        slIpMap={slIpMap}
                       />
                     )}
                   />

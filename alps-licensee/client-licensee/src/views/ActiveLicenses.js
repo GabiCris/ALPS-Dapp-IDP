@@ -118,7 +118,7 @@ class ActiveLicenses extends React.Component {
     return (
       <>
         <div className="content">
-          <Row>
+          {/* <Row>
             <Button
               variant="contained"
               color="primary"
@@ -126,7 +126,7 @@ class ActiveLicenses extends React.Component {
             >
               Refresh
             </Button>
-          </Row>
+          </Row> */}
           <Row>
             <Col md="12">
               <ActiveLicensesTable {...this.props} data={tableData} />

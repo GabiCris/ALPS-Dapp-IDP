@@ -28,7 +28,11 @@ import backgr2 from "assets/backgrounds/background2.jpg";
 import backman from "assets/backgrounds/man-backgr.jpg";
 import backFin from "assets/backgrounds/back-bank.jpg";
 import backVendor from "assets/backgrounds/back-vendor.jpg";
-
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import InputLabel from "@material-ui/core/InputLabel";
 
 function Copyright() {
   return (
@@ -90,31 +94,60 @@ export default function SignInSide({ setToken }) {
 
         <Grid item xs={false} sm={4} md={7} className={classes.image}>
           <div className="hover08 img-background">
-          <figure><img className="img-background" src={screenState ? backVendor : backman} /></figure>
+            <figure>
+              <img
+                className="img-background"
+                src={screenState ? backVendor : backman}
+              />
+            </figure>
           </div>
         </Grid>
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
-            <Box mb={10}>
+            <Box mb={5}>
               <Grid item>
-                <Tabs
-                  indicatorColor="primary"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="Licensee" onClick={() => {console.log(screenState); setScreenState(0);}}/>
-                  <Tab label="Licensor" onClick={() => {console.log(screenState); setScreenState(1);}}/>
+                <Tabs indicatorColor="primary" textColor="primary" centered>
+                  <Tab
+                    label="Licensee"
+                    onClick={() => {
+                      console.log(screenState);
+                      setScreenState(0);
+                    }}
+                  />
+                  <Tab
+                    label="Licensor"
+                    onClick={() => {
+                      console.log(screenState);
+                      setScreenState(1);
+                    }}
+                  />
                   <Tab label="Financial" />
                 </Tabs>
+                
               </Grid>
             </Box>
+            <Box mb={5}>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Select Blockchain Network</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={"Default"}
+                  onChange={() => {}}
+                >
+                  <MenuItem value={10}>Development</MenuItem>
+                  <MenuItem value={20}>ALPS</MenuItem>
+                  <MenuItem value={30}>Custom Connection</MenuItem>
+                </Select>
+              </FormControl>
+              </Box>
+            
+
             <Avatar className={classes.avatar}>
               <img src={logoAlps} />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              
-            </Typography>
+            <Typography component="h1" variant="h5"></Typography>
             <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"

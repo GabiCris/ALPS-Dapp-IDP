@@ -14,38 +14,56 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 
-
 import App from "App";
 import getContractObjects from "scripts/getContractObjects";
 import Web3 from "web3";
 import SmartLicense1 from "./contracts/SmartLicense1.json";
+import OracleDemo from "./contracts/OracleDemo.json";
 
 let provider = new Web3.providers.HttpProvider("http://localhost:8545");
 var web3 = new Web3(provider);
 
 const hist = createBrowserHistory();
-getContractObjects(web3, SmartLicense1).then( result => {
-  console.log("INDEX LIST", result)
+getContractObjects(web3, SmartLicense1).then((result) => {
+  console.log("INDEX LIST", result);
+  let contracts = result[0];
+  contracts.push(OracleDemo);
   const optionsDrizzle = {
-    contracts: result[0],
+    contracts: contracts,
     web3: {
       fallback: {
         type: "ws",
         url: "ws://127.0.0.1:8545",
       },
-  
+    },
+    events: {
+      SmartLicense1: ["PaymentAcknowledged", "RoyaltyComputed"],
     },
   };
   let drizzle = new Drizzle(optionsDrizzle);
+
+  // Get licensors
+  let smartLicenses = result[1];
+  let deviceManagers = result[2];
+  let licensors = result[3];
+  let ips = result[4];
+  let deviceIds = result[5];
+  let slIpMap = result[6];
   ReactDOM.render(
     <Router history={hist}>
-      <App drizzle={drizzle}/>
+      <App
+        drizzle={drizzle}
+        smartLicenses={smartLicenses}
+        deviceManagers={deviceManagers}
+        licensors={licensors}
+        ips={ips}
+        deviceIds={deviceIds}
+        slIpMap={slIpMap}
+      />
     </Router>,
     document.getElementById("root")
-  );  
-}
-
-)
+  );
+});
 // ReactDOM.render(
 //   <Router history={hist}>
 //     <App/>

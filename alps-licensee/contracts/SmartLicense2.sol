@@ -7,13 +7,18 @@ contract SmartLicense2 {
     string public startDate = "10/08/2021";
     string constant contractId = "SmartLicense2";
     uint256 public dueAmount = 250;
+    uint256 public ip = 2222;
+     event PaymentAcknowledged(uint256 _amount, uint256 _dueAmount, uint256 _timestamp);
+    event RoyaltyComputed(uint256 _amount, uint256 _dueAmount, uint256 _timestamp);
 
     function acknowledgePayment(uint256 amount) public {
         setDueAmount(dueAmount - amount);
+        emit PaymentAcknowledged(amount, dueAmount, block.timestamp);
     }
 
     function computeRoyalty(uint256 amount) public {
         setDueAmount(dueAmount + amount);
+        emit RoyaltyComputed(amount, dueAmount, block.timestamp);
     }
     function setDueAmount(uint256 x) public {
         dueAmount = x;
