@@ -21,10 +21,6 @@ class ActiveLicensesTable extends React.Component {
     let transformedData = [];
     let i = 1;
 
-    // for (const [address, contractObj] of this.props.contractObjects.entries()) {
-    //   // let v = await contractObj.methods.dueAmount().call();
-    //   //console.log(address, contractObj);
-    // }
 
     for (let item of data) {
       if (item != null) {
@@ -46,22 +42,8 @@ class ActiveLicensesTable extends React.Component {
     return transformedData;
   }
 
-  fitData(data) {
-    let transformedData = [];
-    let i = 1;
-
-    for (const [contrObj, dataItem] of this.props.contractObjects.entries()) {
-      dataItem.unshift(i);
-      transformedData.push(dataItem);
-      i++;
-    }
-    return transformedData;
-  }
 
   componentDidMount() {
-    // this.setState({
-    //   tableData: this.fitData(this.props.contractObjects),
-    // });
   }
 
   render() {
@@ -168,16 +150,10 @@ class ActiveLicensesTable extends React.Component {
       },
     };
 
-    // let aux = this.fitData(this.props.contractObjects);
-    // console.log("contract objects", this.props.contractObjects);
-
     return (
       <MuiThemeProvider theme={theme}>
         <MUIDataTable
-         // title={"Active Licenses"}
-          //  data={mockData}
-          // eslint-disable-next-line react/prop-types
-          // data={this.fitData(this.props.contractObjects)}
+
           data={this.props.data}
           columns={columns}
           options={options}
