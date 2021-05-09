@@ -30,7 +30,7 @@ export const DevicesLineChart = ({ data /* see data tab */ }) => (
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Monthly Fees',
+            legend: 'Due Amount',
             legendOffset: -40,
             legendPosition: 'middle'
         }}

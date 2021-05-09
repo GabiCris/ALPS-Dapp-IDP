@@ -6,10 +6,10 @@ import {Redirect} from "react-router-dom";
 
 export default function Logout({setToken}) {
     localStorage.clear();
-    setToken(undefined);
     return (
       // <SignInSide/>
-      <Redirect to="/login" />
+      // <Redirect to="/login" />
+      <SignInSide setToken={setToken} />
     );
   }
 

@@ -167,7 +167,6 @@ class Dashboard extends React.Component {
         }
       }
     }
-    console.log("GET DEVICE NO MAP", ipMap);
     let ipBarData = [];
     for (let [_ip, deviceList] of ipMap) {
       if (deviceList.length === 1) {
@@ -187,20 +186,22 @@ class Dashboard extends React.Component {
         ipBarData.push(aux);
       }
     }
-    console.log("BAR CHART DATA", ipBarData)
+    //this.props.updateDeviceNo(ipBarData);
     return [devicesTotal, ipBarData];
   }
 
   transformGraphData(data) {
     let trData = [];
-    let id = 0;
+    let checkDuplicates = new Set();
     for (let instance of data) {
-      trData.push({
-        id: instance[1],
-        value: parseInt(instance[2]),
-        // "label": instance[1],
-      });
-      id++;
+      if (!checkDuplicates.has(instance[1])) {
+        trData.push({
+          id: instance[1],
+          value: parseInt(instance[2]),
+          // "label": instance[1],
+        });
+        checkDuplicates.add(instance[1]);
+      }
     }
     return trData;
   }
@@ -214,9 +215,6 @@ class Dashboard extends React.Component {
     for (let ip of ips.get(0)) {
       ipMap.set(ip.toString(), []);
     }
-    console.log("SLIPMAP", slIpMap);
-    console.log("ipMap b4", ipMap);
-    console.log("DEVICE USAGE DATA", this.props.transactionHistory);
     // iterate through transactions -> add to ipMap
 
     for (let a of this.props.transactionHistory) {
@@ -235,13 +233,11 @@ class Dashboard extends React.Component {
         }
       }
     }
-    console.log("Device Usage ipMap", ipMap);
     for (let [key, value] of ips) {
       if (key !== 0) {
         let a = [];
         for (let ip of value) {
           a = a.concat(ipMap.get(ip.toString()));
-          console.log(ip, ipMap.get(ip.toString()));
         }
         trData.push({
           id: key,
@@ -249,7 +245,6 @@ class Dashboard extends React.Component {
         });
       }
     }
-    console.log("FINAL TR DATA", trData);
     return trData;
   }
 
@@ -262,7 +257,6 @@ class Dashboard extends React.Component {
     let aux_data = this.getDeviceNo();
     let deviceNo = aux_data[0];
     let barGraphData = aux_data[1];
-    console.log("DASHBOARD PROPS TR HIST", paymentGraphData);
     return (
       <>
         <div className="content">
@@ -323,7 +317,11 @@ class Dashboard extends React.Component {
                   <CardFooter>
                     <hr />
                     <div className="stats">
-                      <i className="far fa-clock" /> Averaging {(this.state.noIps/this.props.deviceManagers.size).toFixed(1)} IPs per active Device
+                      <i className="far fa-clock" /> Averaging{" "}
+                      {(
+                        this.state.noIps / this.props.deviceManagers.size
+                      ).toFixed(1)}{" "}
+                      IPs per active Device
                     </div>
                   </CardFooter>
                 </Card>
@@ -388,7 +386,8 @@ class Dashboard extends React.Component {
                   <CardFooter>
                     <hr />
                     <div className="stats">
-                      <i className="far fa-calendar" /> Total of {this.props.deviceManagers.size} devices
+                      <i className="far fa-calendar" /> Total of{" "}
+                      {this.props.deviceManagers.size} devices
                     </div>
                   </CardFooter>
                 </Card>
@@ -423,7 +422,10 @@ class Dashboard extends React.Component {
                   <CardTitle tag="h5">Ip-Device Distribution</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <DashboardBarGraph data={barGraphData} devices={Array.from(this.props.deviceManagers.keys())}/>
+                  <DashboardBarGraph
+                    data={barGraphData}
+                    devices={Array.from(this.props.deviceManagers.keys())}
+                  />
                 </CardBody>
               </Card>
             </Col>

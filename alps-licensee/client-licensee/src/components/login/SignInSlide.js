@@ -33,6 +33,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputLabel from "@material-ui/core/InputLabel";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -87,6 +88,13 @@ export default function SignInSide({ setToken }) {
   // 1 = LICENSOR
   const [screenState, setScreenState] = useState(0);
 
+  const history = useHistory();
+
+  const routeChange = () =>{ 
+    setToken(userToken);
+    let path = "licensee/dashboard"; 
+    history.push(path);
+  }
   return (
     <ThemeProvider theme={themecol}>
       <Grid container component="main" className={classes.root}>
@@ -170,7 +178,7 @@ export default function SignInSide({ setToken }) {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={() => setToken(userToken)}
+                onClick={routeChange}
               >
                 Connect
               </Button>

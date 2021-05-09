@@ -145,7 +145,6 @@ class Devices extends React.Component {
       }
     }
     newData.push(ipArr);
-    console.log("data ACT LIC GET FUNC:", newData);
     // console.log("EXAMPLE:", this.props.drizzleState.contracts["0xb4715De57a52921a165BeAB9bDA33bc66204CC69"].licensee["0x0"]);
 
     return newData;
@@ -178,7 +177,6 @@ class Devices extends React.Component {
     let tableData = this.getTableData();
     let deviceNoData = this.getDeviceNo();
     let devicePrice = this.getDevicePrice();
-    console.log("State", this.state.oracleArr);
     return (
       <>
         <div className="content">

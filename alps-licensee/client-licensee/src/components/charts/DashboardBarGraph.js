@@ -38,20 +38,7 @@ export const DashboardBarGraph = ({ data /* see data tab */, devices }) => (
         spacing: 10,
       },
     ]}
-    fill={[
-      {
-        match: {
-          id: "fries",
-        },
-        id: "dots",
-      },
-      {
-        match: {
-          id: "sandwich",
-        },
-        id: "lines",
-      },
-    ]}
+   
     borderRadius={4}
     borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
     axisTop={null}
@@ -60,7 +47,7 @@ export const DashboardBarGraph = ({ data /* see data tab */, devices }) => (
       tickSize: 5,
       tickPadding: 5,
       tickRotation: 0,
-      legend: "Devices",
+      legend: "IP",
       legendPosition: "middle",
       legendOffset: 32,
     }}
@@ -68,7 +55,7 @@ export const DashboardBarGraph = ({ data /* see data tab */, devices }) => (
       tickSize: 5,
       tickPadding: 5,
       tickRotation: 0,
-      legend: "Units",
+      legend: "Device Units",
       legendPosition: "middle",
       legendOffset: -40,
     }}

@@ -43,7 +43,6 @@ class ActiveLicensesTable extends React.Component {
         i++;
       }
     }
-    console.log("tr data: ", transformedData);
     return transformedData;
   }
 
@@ -52,12 +51,10 @@ class ActiveLicensesTable extends React.Component {
     let i = 1;
 
     for (const [contrObj, dataItem] of this.props.contractObjects.entries()) {
-      console.log(dataItem);
       dataItem.unshift(i);
       transformedData.push(dataItem);
       i++;
     }
-    console.log("ACTIVELIC TABLE:", transformedData);
     return transformedData;
   }
 
@@ -139,10 +136,11 @@ class ActiveLicensesTable extends React.Component {
       // rowsExpanded: [0, 1],
       renderExpandableRow: (rowData, rowMeta) => {
         const colSpan = rowData.length + 1;
+        console.log("ROW DATA", rowData, rowMeta);
         return (
           <TableRow>
             <TableCell colSpan={colSpan}>
-              <ActiveLicenseExpansion />
+              <ActiveLicenseExpansion data={rowData} fullData={this.props.data[rowMeta.rowIndex]} licensors={this.props.licensors}/>
             </TableCell>
           </TableRow>
         );

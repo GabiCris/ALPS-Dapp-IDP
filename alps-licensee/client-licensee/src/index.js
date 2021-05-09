@@ -49,6 +49,7 @@ getContractObjects(web3, SmartLicense1).then((result) => {
   let ips = result[4];
   let deviceIds = result[5];
   let slIpMap = result[6];
+  let ipDeviceMap = result[7];
   ReactDOM.render(
     <Router history={hist}>
       <App
@@ -59,6 +60,7 @@ getContractObjects(web3, SmartLicense1).then((result) => {
         ips={ips}
         deviceIds={deviceIds}
         slIpMap={slIpMap}
+        ipDeviceMap={ipDeviceMap}
       />
     </Router>,
     document.getElementById("root")

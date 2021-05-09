@@ -36,6 +36,7 @@ class ActiveLicenses extends React.Component {
       try {
         let licenseeKey = contract.methods["licensee"].cacheCall();
         let licensorKey = contract.methods["licensor"].cacheCall();
+        let dateKey = contract.methods["startDate"].cacheCall();
         let dueAmountKey;
         try {
           dueAmountKey = contract.methods["dueAmount"].cacheCall();
@@ -47,6 +48,7 @@ class ActiveLicenses extends React.Component {
           licenseeKey,
           licensorKey,
           dueAmountKey,
+          dateKey,
         ]);
       } catch (e) {
         console.log(e);
@@ -71,43 +73,34 @@ class ActiveLicenses extends React.Component {
   getTableData() {
     let newData = [];
     let i = 0;
-    console.log("state", this.props.drizzleState);
-    console.log("array of keys:", this.state.keysArr);
     for (let a of this.state.keysArr) {
       for (let instance of a) {
         if (instance.length >= 3) {
           let contractName = instance[0];
           let currentContract = this.props.drizzleState.contracts[contractName];
-          console.log(
-            "Contract name, contract",
-            contractName,
-            currentContract,
-            instance[1],
-            instance[2]
-          );
+        
           const licensee = currentContract.licensee[instance[1]];
           const licensor = currentContract.licensor[instance[2]];
+          const date = currentContract.startDate[instance[4]];
           let dueAmount;
           try {
             dueAmount = currentContract.dueAmount[instance[3]];
           } catch (e) {
             console.log(e);
           }
-          if (contractName === "SmartLicense1") {
-            dueAmount = currentContract.dueAmount[instance[3]];
-          }
+
           newData.push([
             i,
             contractName,
             licensee && licensee.value,
             licensor && licensor.value,
             dueAmount && dueAmount.value,
+            date && date.value,
           ]);
           i++;
         }
       }
     }
-    console.log("data ACT LIC GET FUNC:", newData);
     // console.log("EXAMPLE:", this.props.drizzleState.contracts["0xb4715De57a52921a165BeAB9bDA33bc66204CC69"].licensee["0x0"]);
 
     return newData;
@@ -115,6 +108,7 @@ class ActiveLicenses extends React.Component {
 
   render() {
     let tableData = this.getTableData();
+    console.log("table data", tableData)
     return (
       <>
         <div className="content">

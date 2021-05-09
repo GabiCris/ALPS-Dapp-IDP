@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 
 import {
@@ -18,15 +20,25 @@ import dataActLine from "components/charts/data-actLic-line.json";
 import { Link } from "react-router-dom";
 
 class ActiveLicensesExpansion extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    let licenseAdr = this.props.data[1];
+    let licensee = this.props.data[2];
+    let licensor = this.props.data[3];
+    let date = this.props.fullData[5];
+    console.log("Data in al exp", this.props.fullData)
+    console.log("expansion", this.props.data);
     return (
       <>
         <div className="content">
           <div className="card-simple">
             <Card>
               <CardHeader>
-                <CardTitle tag="h5">Flat Payment Agreeement </CardTitle>
-                <CardSubtitle tag="h6">E-Corp Ltd.</CardSubtitle>
+                <CardTitle tag="h5"> Smart License {licenseAdr} </CardTitle>
+                <CardSubtitle tag="h6"> {licensor}</CardSubtitle>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -34,10 +46,19 @@ class ActiveLicensesExpansion extends React.Component {
                     <Card className="card-simple">
                       <CardBody>
                         <ListGroup className="list-group-flush">
-                          <ListGroupItemHeading>Summary</ListGroupItemHeading>
-                          <ListGroupItem>Cras justo odio</ListGroupItem>
-                          <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                          <ListGroupItem>Vestibulum at eros</ListGroupItem>
+                          <ListGroupItemHeading>
+                            Licenses Active for {licensor}
+                          </ListGroupItemHeading>
+                          <ListGroupItem>
+                            {this.props.licensors.get(licensor)[0]}
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            {this.props.licensors.get(licensor)[1]}
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            {" "}
+                            {this.props.licensors.get(licensor)[2]}
+                          </ListGroupItem>
                         </ListGroup>
                       </CardBody>
                     </Card>
@@ -113,7 +134,7 @@ class ActiveLicensesExpansion extends React.Component {
                     </Col>
                     <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
                       <h5>
-                        12/02/2020 <br />
+                        {date} <br />
                         <small>Contract Starting Date</small>
                       </h5>
                     </Col>

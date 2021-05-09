@@ -24,11 +24,9 @@ const getContractObjects = async (web3, SmartLicense1) => {
     var currentBlock = await web3.eth.getBlock(blockIndex);
     transactionsList = [...transactionsList, ...currentBlock.transactions];
   }
-  console.log(transactionsList);
   // Iterate through transactions, get all contracts from "from" field
   for (let transaction of transactionsList) {
     let trInfo = await web3.eth.getTransactionReceipt(transaction);
-    console.log("transaction", transaction, trInfo)
     contractsSet.add(trInfo.contractAddress);
   }
   // ContractsSet contains the addresses of all the contracts in the blockchain
@@ -38,6 +36,7 @@ const getContractObjects = async (web3, SmartLicense1) => {
   let ipsSet = new Set();
   let deviceIds = new Map();
   let slIpMap = new Map();
+  let ipDeviceMap = new Map();
 
   // now create web3 objects
   for (let instance of contracts) {
@@ -59,34 +58,49 @@ const getContractObjects = async (web3, SmartLicense1) => {
           let licensor = await newC.methods.licensor().call();
           let ip = await newC.methods.ip().call();
           licensors.has(licensor)
-            ? licensors.set(licensor, licensors.get(licensor) + 1)
-            : licensors.set(licensor, 1);
-          slIpMap.set(instance, ip);
+            ? licensors.get(licensor).push(instance)
+            : licensors.set(licensor, [instance]);
+          slIpMap.set(instance, ip.toString());
         }
         if (contractType.includes("DeviceManager")) {
           deviceManagers.set(instance, newC);
-          //let ipsList = await aux.methods.getIps().call();
+          let ipsList = await newC.methods.getIps().call();
           let deviceId = await newC.methods.deviceId().call();
           deviceIds.set(instance, deviceId);
-          let ipsList = contractType === "DeviceManager1" ? [1111, 2222, 3333] : [1111, 5555];
           //add ips in set
           ips.set(instance, ipsList);
+          for (let ip of ipsList) {
+            ipsSet.add(ip);
+            ipDeviceMap.has(ip)
+              ? ipDeviceMap.get(ip).push(instance)
+              : ipDeviceMap.set(ip, [instance]);
+          }
         }
       } catch (e) {
         console.log(e);
       }
     }
   }
-  ipsSet.add(1111);
-  ipsSet.add(2222);
-  ipsSet.add(3333);
-  ipsSet.add(5555);
-  console.log("GET CONTR OJ IPS ", ips)
+  console.log("GET CONTR OJ IPS ", ips);
   // ips map will have the set of all ips at key 0
   ips.set(0, ipsSet);
 
   // return array of [allContractobjects, smartlicenses Map, device Manager map, ips Map, device Ids Map]
-  return [conArr, smartLicenses, deviceManagers, licensors, ips, deviceIds, slIpMap];
+  // licensors: (MAP) Licensor name => #associated SL i.e. number of associated smart licenses
+  // ips:(MAP) Device adr => [ips] list of associated ips
+  // deviceIds: (MAP) Device addr => Device Id
+  // slIpMap: IP => SmartLicense
+  // ipDeviceMap:  IP => [Devices] list of associated devices
+  return [
+    conArr,
+    smartLicenses,
+    deviceManagers,
+    licensors,
+    ips,
+    deviceIds,
+    slIpMap,
+    ipDeviceMap,
+  ];
 };
 
 export default getContractObjects;
