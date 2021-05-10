@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /*!
 
@@ -98,6 +99,7 @@ class Header extends React.Component {
     }
   }
   componentDidMount() {
+    //console.log("DEMO NAVBAR COMP", this.props)
     window.addEventListener("resize", this.updateColor.bind(this));
   }
   componentDidUpdate(e) {
@@ -188,13 +190,13 @@ class Header extends React.Component {
                   </p>
                 </Link>
               </NavItem>
-              <NavItem>
-                <Link to="/logout" className="nav-link btn-rotate">
-                  <ExitToAppIcon fontSize="small" />
+              <NavItem className="nav-link btn-rotate" onClick={() => this.props.logout()}>
+                {/* <Link to="/logout" className="nav-link btn-rotate" setToken={this.props.setToken}> */}
+                  <ExitToAppIcon  fontSize="small" />
                   <p>
                     <span className="d-lg-none d-md-block">Account</span>
                   </p>
-                </Link>
+                {/* </Link> */}
               </NavItem>
             </Nav>
           </Collapse>

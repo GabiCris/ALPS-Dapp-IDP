@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -34,6 +35,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputLabel from "@material-ui/core/InputLabel";
 import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import App from "App";
 
 function Copyright() {
   return (
@@ -81,20 +84,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide({ setToken }) {
+export default function SignInSlide({ setToken, setAppState }) {
   const classes = useStyles();
   const [userToken, setUserToken] = useState();
   // 0 - LICENSEE
   // 1 = LICENSOR
   const [screenState, setScreenState] = useState(0);
 
-  const history = useHistory();
+  const routeChange = (e) => {
+    e.preventDefault();
+    console.log("ROUTE CHANGED,", screenState);
+    //setAppState(screenState);
+    setToken(userToken, screenState);
+    //return <App/>
+  };
 
-  const routeChange = () =>{ 
-    setToken(userToken);
-    let path = "licensee/dashboard"; 
-    history.push(path);
-  }
+  const handleTabChange = (event, newValue) => {
+    setScreenState(newValue);
+  };
   return (
     <ThemeProvider theme={themecol}>
       <Grid container component="main" className={classes.root}>
@@ -115,29 +122,38 @@ export default function SignInSide({ setToken }) {
           <div className={classes.paper}>
             <Box mb={5}>
               <Grid item>
-                <Tabs indicatorColor="primary" textColor="primary" centered>
+                <Tabs
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                  value={screenState}
+                  onChange={handleTabChange}
+                >
                   <Tab
                     label="Licensee"
-                    onClick={() => {
-                      console.log(screenState);
-                      setScreenState(0);
-                    }}
+                    value={0}
+                    // onClick={() => {
+                    //   console.log(screenState);
+                    //   setScreenState(0);
+                    // }}
                   />
                   <Tab
                     label="Licensor"
-                    onClick={() => {
-                      console.log(screenState);
-                      setScreenState(1);
-                    }}
+                    value={1}
+                    // onClick={() => {
+                    //   console.log(screenState);
+                    //   setScreenState(1);
+                    // }}
                   />
                   <Tab label="Financial" />
                 </Tabs>
-                
               </Grid>
             </Box>
             <Box mb={5}>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Select Blockchain Network</InputLabel>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">
+                  Select Blockchain Network
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -149,8 +165,7 @@ export default function SignInSide({ setToken }) {
                   <MenuItem value={30}>Custom Connection</MenuItem>
                 </Select>
               </FormControl>
-              </Box>
-            
+            </Box>
 
             <Avatar className={classes.avatar}>
               <img src={logoAlps} />
@@ -168,6 +183,7 @@ export default function SignInSide({ setToken }) {
                 autoComplete="Key"
                 autoFocus
                 onChange={(e) => {
+                  e.preventDefault();
                   setUserToken(e.target.value);
                 }}
               />
@@ -214,7 +230,3 @@ export default function SignInSide({ setToken }) {
     </ThemeProvider>
   );
 }
-
-SignInSide.propTypes = {
-  setToken: PropTypes.func,
-};
