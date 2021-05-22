@@ -8,6 +8,11 @@ const getContractObjects = async (web3, SmartLicense1) => {
   let contractsAbi = getContractsAbi();
   let conArr = [];
 
+  let token = localStorage.getItem("CurrentToken");
+  // 0 - licensee, 1-licensor
+  let appState = localStorage.getItem("AppState");
+  console.log("STATE DATA IN GET CONTRACT OBJ", token, appState);
+
   // get all contracts
   console.log("GETTING CONTRACTS TO CREATE WEB3 OBJECTS!");
   let transactionsList = [];
@@ -37,7 +42,10 @@ const getContractObjects = async (web3, SmartLicense1) => {
   let deviceIds = new Map();
   let slIpMap = new Map();
   let ipDeviceMap = new Map();
+  let ipSlMap = new Map();
 
+  if (appState === "0") {
+    console.log("APP STATE 0")
   // now create web3 objects
   for (let instance of contracts) {
     if (instance != null) {
@@ -48,21 +56,33 @@ const getContractObjects = async (web3, SmartLicense1) => {
           contractsAbi.get(contractType),
           instance
         );
-        conArr.push({
-          contractName: instance,
-          web3Contract: newC,
-        });
         console.log("type:", contractType);
         if (contractType.includes("SmartLicense")) {
-          smartLicenses.set(instance, newC);
+          let licensee = await newC.methods.licensee().call();
+          console.log("SL COMP", licensee, token, licensee===token)
+          if (  licensee === token) {
+          conArr.push({
+            contractName: instance,
+            web3Contract: newC,
+          });
           let licensor = await newC.methods.licensor().call();
           let ip = await newC.methods.ip().call();
+          smartLicenses.set(instance, newC);
           licensors.has(licensor)
             ? licensors.get(licensor).push(instance)
             : licensors.set(licensor, [instance]);
           slIpMap.set(instance, ip.toString());
-        }
+          ipSlMap.has(ip.toString())
+          ? ipSlMap.get(ip.toString()).push(instance)
+          : ipSlMap.set(ip.toString(), [instance]);
+        }}
         if (contractType.includes("DeviceManager")) {
+          let licensee = await newC.methods.licensee().call();
+          if (  licensee === token) {
+            conArr.push({
+              contractName: instance,
+              web3Contract: newC,
+            });
           deviceManagers.set(instance, newC);
           let ipsList = await newC.methods.getIps().call();
           let deviceId = await newC.methods.deviceId().call();
@@ -76,11 +96,86 @@ const getContractObjects = async (web3, SmartLicense1) => {
               : ipDeviceMap.set(ip, [instance]);
           }
         }
+      }
+        // else {
+        //   // Potential Oracle contracts or other necessary dynamically added contracts
+        //   conArr.push({
+        //     contractName: instance,
+        //     web3Contract: newC,
+        //   });
+        // }
+      } 
+      catch (e) {
+        console.log(e);
+      }
+    }
+  }
+} else if (appState === "1") {
+  console.log("APP STATE 1")
+  for (let instance of contracts) {
+    if (instance != null) {
+      let aux = new web3.eth.Contract(SmartLicense1.abi, instance);
+      try {
+        let contractType = await aux.methods.getContractType().call();
+        let newC = new web3.eth.Contract(
+          contractsAbi.get(contractType),
+          instance
+        );
+        // conArr.push({
+        //   contractName: instance,
+        //   web3Contract: newC,
+        // });
+        console.log("type:", contractType);
+        if (contractType.includes("SmartLicense")) {
+          let licensor = await newC.methods.licensor().call();
+          
+          if ( licensor === token) {
+          conArr.push({
+            contractName: instance,
+            web3Contract: newC,
+          });
+          let ip = await newC.methods.ip().call();
+          smartLicenses.set(instance, newC);
+          licensors.has(licensor)
+            ? licensors.get(licensor).push(instance)
+            : licensors.set(licensor, [instance]);
+          slIpMap.set(instance, ip.toString());
+          ipSlMap.has(ip.toString())
+          ? ipSlMap.get(ip.toString()).push(instance)
+          : ipSlMap.set(ip.toString(), [instance]);
+        }}
+
+        // FILER BY IP AS WELL
+        if (contractType.includes("DeviceManager")) {
+          conArr.push({
+            contractName: instance,
+            web3Contract: newC,
+          });
+          deviceManagers.set(instance, newC);
+          let ipsList = await newC.methods.getIps().call();
+          let deviceId = await newC.methods.deviceId().call();
+          deviceIds.set(instance, deviceId);
+          //add ips in set
+          ips.set(instance, ipsList);
+          for (let ip of ipsList) {
+            ipsSet.add(ip);
+            ipDeviceMap.has(ip)
+              ? ipDeviceMap.get(ip).push(instance)
+              : ipDeviceMap.set(ip, [instance]);
+          }
+        }
+        // else {
+        //   conArr.push({
+        //     contractName: instance,
+        //     web3Contract: newC,
+        //   });
+        // }
       } catch (e) {
         console.log(e);
       }
     }
   }
+}
   console.log("GET CONTR OJ IPS ", ips);
   // ips map will have the set of all ips at key 0
   ips.set(0, ipsSet);
@@ -100,6 +195,7 @@ const getContractObjects = async (web3, SmartLicense1) => {
     deviceIds,
     slIpMap,
     ipDeviceMap,
+    ipSlMap,
   ];
 };
 

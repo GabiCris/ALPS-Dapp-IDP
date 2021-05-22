@@ -37,7 +37,7 @@ class DevicesTableExpansion extends React.Component {
             {/* data={this.props.dataIndex == 0 ? data1 : data2}/> */}
           </Card>
         </Box>
-        <div className="content">
+        {/* <div className="content">
           <Row>
             <Col>
               <Card>
@@ -62,7 +62,7 @@ class DevicesTableExpansion extends React.Component {
               </Card>
             </Col>
           </Row>
-        </div>
+        </div> */}
       </>
     );
   }

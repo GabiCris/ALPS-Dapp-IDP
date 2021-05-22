@@ -16,10 +16,12 @@ import {
 import Box from "@material-ui/core/Box";
 
 const columns = [
-  "ID",
-  "Name",
-  "No. of Associated Devices",
-  "Associated License",
+  { name: "ID" },
+  { name: "Name" },
+  { name: "No. of Associated Devices" },
+  {
+    name: "Associated Licenses"
+  }
 ];
 
 const options = {
@@ -60,7 +62,7 @@ export default function IPRegistry(props) {
   }
 
   function getTableData() {
-    let { ipDeviceMap, slIpMap } = props;
+    let { ipDeviceMap, slIpMap, ipSlMap } = props;
     let data = [];
     let index = 1;
 
@@ -69,8 +71,8 @@ export default function IPRegistry(props) {
       ipMap.set(ip, sl);
     }
     // Iterate through all IPS
-    for (let ip of ipDeviceMap.keys()) {
-      data.push([index++, ip, ipDeviceMap.get(ip).length, ipMap.get(ip)]);
+    for (let ip of ipSlMap.keys()) {
+      data.push([index++, ip, ipDeviceMap.get(ip).length, ipSlMap.get(ip).toString()]);
     }
     return data;
   }

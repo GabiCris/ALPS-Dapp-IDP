@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import HorizontalNonLinearAlternativeLabelStepper from "components/Stepper";
 import React from "react";
 import AddIcon from "@material-ui/icons/Add";
@@ -10,34 +11,68 @@ import theme from "ColorTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import SLTable from "components/SLTable";
 
-export default function SmartLicense() {
-  // eslint-disable-next-line no-unused-vars
-  const [value, setValue] = React.useState(0);
+class SmartLicense extends React.Component {
+  constructor(props) {
+    super(props);
+    this.timeout = 250;
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      value: 0,
+    };
+  }
+  handleChange(event) {
+    this.setState({
+      value: event.target.value,
+      ws: null,
+    });
+  }
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  sendMessage() {
+    let websocket = this.state.ws;
+    try {
+      let data = "Random text of data";
+      websocket.send(data); //send data to the server
+    } catch (error) {
+      console.log(error); // catch error
+    }
+  }
 
-  return (
-    <div className="content">
-      <ThemeProvider theme={theme}>
-      <Paper square>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="fullWidth"
-          indicatorColor="secondary"
-          textColor="secondary"
-          aria-label="icon label tabs example"
-        >
-          <Tab icon={<AddIcon />} label="Create Smart License" />
-          <Tab icon={<HistoryIcon />} label="History" />
-        </Tabs>
-      </Paper>
-      <Box mt={5}>
-      {value ? <SLTable/> : <HorizontalNonLinearAlternativeLabelStepper/>}
-      </Box>
-      </ThemeProvider>
-    </div>
-  );
+  render() {
+    return (
+      <div className="content">
+        <ThemeProvider theme={theme}>
+          {this.props.appState === "1" ? (
+            <div></div>
+          ) : (
+            <Paper square>
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                variant="fullWidth"
+                indicatorColor="secondary"
+                textColor="secondary"
+                aria-label="icon label tabs example"
+              >
+                <Tab icon={<AddIcon />} label="Create Smart License" />
+                <Tab icon={<HistoryIcon />} label="History" />
+              </Tabs>
+            </Paper>
+          )}
+          <Box mt={5}>
+            {this.state.value ? (
+              <SLTable />
+            ) : (
+              <HorizontalNonLinearAlternativeLabelStepper
+                onSubmitMessage={this.props.onSubmitMessage}
+                appState={this.props.appState}
+                isSLConfirmed={this.props.isSLConfirmed}
+              />
+            )}
+          </Box>
+        </ThemeProvider>
+      </div>
+    );
+  }
 }
+
+export default SmartLicense;

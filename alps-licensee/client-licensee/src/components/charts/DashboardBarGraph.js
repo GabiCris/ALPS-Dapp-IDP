@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 // website examples showcase many properties,
 // you'll often use just a few of them.
 
-export const DashboardBarGraph = ({ data /* see data tab */, devices }) => (
+export const DashboardBarGraph = ({ data /* see data tab */, devices, loadedData }) => (
   <ResponsiveBar
     data={data}
     keys={devices}
@@ -86,7 +86,8 @@ export const DashboardBarGraph = ({ data /* see data tab */, devices }) => (
         ],
       },
     ]}
-    animate={true}
+    // animate={true}
+    animate={loadedData}
     motionStiffness={90}
     motionDamping={15}
   />

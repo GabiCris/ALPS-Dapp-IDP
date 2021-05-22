@@ -1,7 +1,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract SmartLicense2 {
-    string public licensee = "Licensee 1";
+    string public licensee = "Licensee 2";
     string public licensor = "Motor Vehicles";
     string public devices = "540";
     string public startDate = "10/08/2021";

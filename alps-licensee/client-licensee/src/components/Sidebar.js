@@ -72,12 +72,13 @@ class Sidebar extends React.Component {
               <img src={logo} alt="react-logo" />
             </div>
           </a>
-          <a className="simple-text logo-normal">LICENSEE</a>
+          <a className="simple-text logo-normal">{this.props.appState === "0" ? "LICENSEE" : "LICENSOR"}</a>
         </div>
         <div className="sidebar-wrapper" ref={this.sidebar}>
           <Nav>
             {this.props.routes.map((prop, key) => {
               if (prop.layout != "/login") {
+                if (this.props.appState ==="0" || (this.props.appState === "1" && prop.path != "/licensor-det")) {
                 return (
                   <li
                     className={
@@ -97,7 +98,7 @@ class Sidebar extends React.Component {
                   </li>
                 );
               }
-            })}
+            }})}
           </Nav>
           <Box mt={18} px={1}>
             <Row>

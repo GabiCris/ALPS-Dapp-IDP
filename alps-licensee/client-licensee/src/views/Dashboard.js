@@ -75,6 +75,8 @@ class Dashboard extends React.Component {
       activeLicensesNo: 0,
       noIps: 0,
       deviceNo: [],
+      ipBarData: [],
+      loadedData: false,
     };
   }
 
@@ -95,7 +97,10 @@ class Dashboard extends React.Component {
         let licensorKey = drizzle.contracts[address].methods[
           "licensor"
         ].cacheCall();
-        auxArr.push([address, dueAmountKey, licensorKey]);
+        let licenseeKey = drizzle.contracts[address].methods[
+          "licensee"
+        ].cacheCall();
+        auxArr.push([address, dueAmountKey, licensorKey, licenseeKey]);
       } catch (e) {
         console.log("dashboard err", e);
       }
@@ -120,6 +125,18 @@ class Dashboard extends React.Component {
     }
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.state.ipBarData.length === 0) {
+  //     return true;
+  //   }
+  //   if (Object.values(this.state.ipBarData[0]).includes("undefined")) {
+  //     console.log("SHOULD UPDATE CHECK DONE");
+  //     return true;
+  //   }
+  //   console.log("CHECK SH UPD", Object.values(this.state.ipBarData[0]));
+  //   return false;
+  // }
+
   getDueAmount() {
     let totalDueAmount = 0;
     let dueAmountData = [];
@@ -129,10 +146,12 @@ class Dashboard extends React.Component {
         let currentContract = this.props.drizzleState.contracts[contractName];
         const dueAmount = currentContract.dueAmount[instance[1]];
         const licensor = currentContract.licensor[instance[2]];
+        const licensee = currentContract.licensee[instance[3]];
         dueAmountData.push([
           contractName,
           licensor && truncateText(licensor.value, 15),
           dueAmount && dueAmount.value,
+          licensee && licensee.value,
         ]);
         if (dueAmount) {
           totalDueAmount = totalDueAmount + parseInt(dueAmount.value);
@@ -168,9 +187,10 @@ class Dashboard extends React.Component {
       }
     }
     let ipBarData = [];
+    let d;
     for (let [_ip, deviceList] of ipMap) {
       if (deviceList.length === 1) {
-        const d = deviceList[0];
+        d = deviceList[0];
         let aux = {};
         aux["ip"] = _ip;
         aux[d] = deviceNoMap.get(d);
@@ -187,22 +207,47 @@ class Dashboard extends React.Component {
       }
     }
     //this.props.updateDeviceNo(ipBarData);
+    // if (
+    //   this.state.ipBarData.lenght === 0 ||
+    //   typeof deviceNoMap.get(d) === "undefined"
+    // ) {
+    // this.setState((state) => ({
+    //   ipBarData: [...state.ipBarData, ipBarData],
+    // }));
+    // }
     return [devicesTotal, ipBarData];
   }
 
   transformGraphData(data) {
     let trData = [];
-    let checkDuplicates = new Set();
+    let checkDuplicatesLicensee = new Set();
+    let checkDuplicatesLicensor = new Set();
+    // console.log("payment graph data", data);
     for (let instance of data) {
-      if (!checkDuplicates.has(instance[1])) {
-        trData.push({
-          id: instance[1],
-          value: parseInt(instance[2]),
-          // "label": instance[1],
-        });
-        checkDuplicates.add(instance[1]);
+      if (this.props.appState === "0") {
+        if (!checkDuplicatesLicensee.has(instance[1])) {
+          // LICENSEE
+          trData.push({
+            id: instance[1],
+            value: parseInt(instance[2]),
+            // "label": instance[1],
+          });
+          checkDuplicatesLicensee.add(instance[1]);
+        }
+      }
+      // LICENSOR
+      else if (this.props.appState === "1") {
+        if (!checkDuplicatesLicensor.has(instance[3])) {
+          trData.push({
+            id: instance[3],
+            value: parseInt(instance[2]),
+            // "label": instance[1],
+          });
+          checkDuplicatesLicensor.add(instance[3]);
+        }
       }
     }
+
     return trData;
   }
 
@@ -216,20 +261,22 @@ class Dashboard extends React.Component {
       ipMap.set(ip.toString(), []);
     }
     // iterate through transactions -> add to ipMap
-
+    let noDays = 4;
     for (let a of this.props.transactionHistory) {
       let rDate = randomDate(new Date(2021, 0, 1), new Date());
+      console.log("TRANSACTION HISTORY", this.props.transactionHistory);
       for (let instance of a) {
         let trIp = slIpMap.get(instance[0]);
-        console.log("instance", trIp);
         if (ipMap.has(trIp)) {
           // ipMap.get(trIp).push({ x: instance[6], y: parseInt(instance[5]) });
-
+          let date = new Date(Date.parse(instance[6]));
+          date.setDate(date.getDate() - noDays);
           ipMap.get(trIp).push({
-            x: rDate.toISOString().split("T")[0],
+            x: date.toISOString().split("T")[0],
             y: parseInt(instance[5]),
           });
           rDate = randomDate(rDate, new Date());
+          noDays += 3;
         }
       }
     }
@@ -248,8 +295,21 @@ class Dashboard extends React.Component {
     return trData;
   }
 
+  checkDataLoaded(barGraphData) {
+    if (typeof barGraphData !== "undefined") {
+      return false;
+    }
+    for (let obj of barGraphData) {
+      if (Object.values(obj).includes("undefined")) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   render() {
     let data = this.getDueAmount();
+    console.log("DUE AMOUNT DATA", data);
     let dueAmount = data[0];
     let paymentGraphData = this.transformGraphData(data[1]);
     let deviceUsageData = this.getDeviceUsageGraphData();
@@ -257,6 +317,14 @@ class Dashboard extends React.Component {
     let aux_data = this.getDeviceNo();
     let deviceNo = aux_data[0];
     let barGraphData = aux_data[1];
+
+    if (this.checkDataLoaded(barGraphData) && !this.state.loadedData) {
+      this.setState({
+        loadedData: true,
+      });
+    }
+    console.log("BAR GRAPH DATA", barGraphData, this.state.loadedData);
+    console.log("DEVICE GRAPH", deviceUsageData);
     return (
       <>
         <div className="content">
@@ -400,7 +468,11 @@ class Dashboard extends React.Component {
               <Card className="chart">
                 <CardHeader>
                   <CardTitle tag="h5">Payments Breakdown</CardTitle>
-                  <p className="card-category">March 2021</p>
+                  <p className="card-category">
+                    {this.props.appState === "0"
+                      ? "March 2021"
+                      : "Total Due Amount per Licensee"}
+                  </p>
                 </CardHeader>
                 <CardBody>
                   <PaymentsPie
@@ -412,19 +484,15 @@ class Dashboard extends React.Component {
             </Col>
             <Col md="8">
               <Card className="chart">
-                {/* <CardHeader>
-                  <CardTitle tag="h5">Annual Payments</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <ActLineChart data={dataActLine} />
-                </CardBody> */}
                 <CardHeader>
-                  <CardTitle tag="h5">Ip-Device Distribution</CardTitle>
+                  <CardTitle tag="h5">IP Device Distribution</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <DashboardBarGraph
                     data={barGraphData}
+                    // data={this.state.ipBarData}
                     devices={Array.from(this.props.deviceManagers.keys())}
+                    loadedData={this.state.loadedData}
                   />
                 </CardBody>
               </Card>

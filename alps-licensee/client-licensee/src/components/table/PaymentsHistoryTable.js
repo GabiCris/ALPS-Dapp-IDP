@@ -17,7 +17,9 @@ const columns = [
 //     ["1", "random", 21312],
 //     ["", "1231", 124]
 // ];
-
+const options = {
+  count: 5,
+};
 export default function PaymentsHistoryTable(props) {
   return (
     <>
@@ -30,6 +32,7 @@ export default function PaymentsHistoryTable(props) {
                   title="Payments History"
                   data={props.historyData[0]}
                   columns={columns}
+                  // options={options}
                 />
               </CardBody>
             </Card>
@@ -42,6 +45,7 @@ export default function PaymentsHistoryTable(props) {
                   title="New Billing Details"
                   data={props.billingData[0]}
                   columns={columns}
+                  // options={options}
                 />
               </CardBody>
             </Card>

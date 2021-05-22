@@ -37,6 +37,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import App from "App";
+import BlockchainConfigDialog from "./BlockchainConfigDialog";
 
 function Copyright() {
   return (
@@ -93,10 +94,7 @@ export default function SignInSlide({ setToken, setAppState }) {
 
   const routeChange = (e) => {
     e.preventDefault();
-    console.log("ROUTE CHANGED,", screenState);
-    //setAppState(screenState);
     setToken(userToken, screenState);
-    //return <App/>
   };
 
   const handleTabChange = (event, newValue) => {
@@ -120,7 +118,7 @@ export default function SignInSlide({ setToken, setAppState }) {
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
-            <Box mb={5}>
+            <Box mb={9}>
               <Grid item>
                 <Tabs
                   indicatorColor="primary"
@@ -145,11 +143,11 @@ export default function SignInSlide({ setToken, setAppState }) {
                     //   setScreenState(1);
                     // }}
                   />
-                  <Tab label="Financial" />
+                  {/* <Tab label="Financial" /> */}
                 </Tabs>
               </Grid>
             </Box>
-            <Box mb={5}>
+            {/* <Box mb={5}>
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">
                   Select Blockchain Network
@@ -165,7 +163,7 @@ export default function SignInSlide({ setToken, setAppState }) {
                   <MenuItem value={30}>Custom Connection</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
+            </Box> */}
 
             <Avatar className={classes.avatar}>
               <img src={logoAlps} />
@@ -198,10 +196,10 @@ export default function SignInSlide({ setToken, setAppState }) {
               >
                 Connect
               </Button>
-              <Grid container></Grid>
-              <Box mt={5}>
-                <Copyright />
+              <Box display="flex" justifyContent="center">
+                <BlockchainConfigDialog />
               </Box>
+
               <Box mt={18} px={10}>
                 <div className="logo">
                   <Row>
@@ -222,6 +220,9 @@ export default function SignInSlide({ setToken, setAppState }) {
                     </Col>
                   </Row>
                 </div>
+              </Box>
+              <Box mt={2}>
+                <Copyright />
               </Box>
             </form>
           </div>

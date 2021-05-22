@@ -102,7 +102,7 @@ class Payments extends React.Component {
               />
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col md="4">
               <Card className="chart">
                 <CardHeader>
@@ -124,7 +124,7 @@ class Payments extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
         </div>
       </>
     );

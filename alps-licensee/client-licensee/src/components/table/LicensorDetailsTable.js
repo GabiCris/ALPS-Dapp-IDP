@@ -19,10 +19,8 @@ class LicensorDetailsTable extends React.Component {
     let licensorsMap = this.props.data;
     let data = [];
     let i = 0;
-    let r = 3;
     for (let [licensor, occurances] of licensorsMap.entries()) {
-      data.push([i, licensor, r, occurances.length]);
-      r = r*7;
+      data.push([i, licensor, occurances.length]);
       i++;
     }
     return data;
@@ -45,12 +43,7 @@ class LicensorDetailsTable extends React.Component {
           filter: true,
         },
       },
-      {
-        name: "Website",
-        options: {
-          filter: true,
-        },
-      },
+      
       {
         name: "No. Devices",
         options: {
