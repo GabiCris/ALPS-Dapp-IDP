@@ -20,7 +20,6 @@ import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 let provider = new Web3.providers.HttpProvider("http://localhost:8545");
 var web3 = new Web3(provider);
 
-
 const URL = "ws://localhost:3030";
 let ws = new WebSocket(URL);
 
@@ -35,6 +34,7 @@ class App extends React.Component {
     this.addMessage = this.addMessage.bind(this);
     this.submitMessage = this.submitMessage.bind(this);
     this.confirmSL = this.confirmSL.bind(this);
+    this.rejectSL = this.rejectSL.bind(this);
     this.state = {
       drizzle: null,
       token: null,
@@ -52,6 +52,8 @@ class App extends React.Component {
       needRefresh: false,
       messages: [],
       isSLConfirmed: false,
+      slCreationList: [],
+      isSlRejected:false,
     };
   }
 
@@ -90,7 +92,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    
     this._asyncRequest = getContractObjects(web3, SmartLicense1).then(
       (result) => {
         this._asyncRequest = null;
@@ -146,13 +147,22 @@ class App extends React.Component {
       // on receiving a message, add it to the list of messages
       const message = JSON.parse(evt.data);
       console.log("MESSAGE RECEIVED:", message);
-      if (message.type === "CONFIRM"){
+      if (message.type === "ACCEPT") {
         this.confirmSL();
+      } else if (message.type === "REJECT"){
+        this.rejectSL();
       }
-      else {
-      this.addMessage(message);
-      console.log("MESSAGES:", this.state.messages);
-      }
+      else if (this.state.appState === "1" && message.type === "CREATE") {
+          const mess = {
+            party: this.state.appState,
+            name: message.name,
+            type: message.type,
+            message: message.message,
+            licensor: this.state.token,
+            sign: message.sign,
+          };
+          this.addMessage(mess);
+        }
     };
 
     ws.onclose = () => {
@@ -169,18 +179,47 @@ class App extends React.Component {
     this.setState((state) => ({ messages: [message, ...state.messages] }));
   }
 
-  submitMessage (messageString, type) {
-    // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { party: this.state.appState, name: this.state.token, type: type, message: messageString };
-    // const message = { name: this.state.appState === "0" ? "LICENSEE" : "LICENSOR", message: messageString };
-    ws.send(JSON.stringify(message));
-    this.addMessage(message);
+  submitMessage(messageString, type, licensor, sign) {
+    if (type === "CREATE") {
+      const message = {
+        party: this.state.appState,
+        name: this.state.token,
+        type: type,
+        message: messageString,
+        licensor: licensor,
+        sign: sign,
+      };
+      // const message = { name: this.state.appState === "0" ? "LICENSEE" : "LICENSOR", message: messageString };
+      ws.send(JSON.stringify(message));
+      this.addMessage(message);
+    } else if (type === "ACCEPT") {
+      let items = [...this.state.messages];
+      let item = { ...items[items.length -1] };
+      item.type = "ACCEPT";
+      items[items.length -1] = item;
+      this.setState({ messages: items });
+    }
+    else if (type === "REJECT") {
+      let items = [...this.state.messages];
+      let item = { ...items[items.length -1] };
+      item.type = "REJECT";
+      items[items.length -1] = item;
+      this.setState({ messages: items });
+    }
   }
 
   confirmSL() {
     this.setState({
       isSLConfirmed: true,
     });
+    this.submitMessage("", "ACCEPT", "", "");
+  }
+
+  rejectSL() {
+    this.setState({
+      isSlRejected: true,
+    });
+    this.submitMessage("", "REJECT", "", "");
   }
 
   render() {
@@ -232,7 +271,7 @@ class App extends React.Component {
               deviceIds,
               slIpMap,
               ipDeviceMap,
-              ipSlMap
+              ipSlMap,
             } = this.state;
             return (
               <div className="App">
@@ -257,8 +296,12 @@ class App extends React.Component {
                         setToken={this.setToken}
                         logout={this.logout}
                         appState={this.state.appState}
-                        onSubmitMessage={(messageString, type) => this.submitMessage(messageString, type)}
+                        onSubmitMessage={(messageString, type) =>
+                          this.submitMessage(messageString, type)
+                        }
                         isSLConfirmed={this.state.isSLConfirmed}
+                        messages={this.state.messages}
+                        ws={ws}
                       />
                     )}
                   ></Route>
@@ -283,8 +326,22 @@ class App extends React.Component {
                         setToken={this.setToken}
                         logout={this.logout}
                         appState={this.state.appState}
-                        onSubmitMessage={(messageString, type) => this.submitMessage(messageString, type)}
+                        onSubmitMessage={(
+                          messageString,
+                          type,
+                          licensor,
+                          sign
+                        ) =>
+                          this.submitMessage(
+                            messageString,
+                            type,
+                            licensor,
+                            sign
+                          )
+                        }
                         isSLConfirmed={this.state.isSLConfirmed}
+                        messages={this.state.messages}
+                        ws={ws}
                       />
                     )}
                   />

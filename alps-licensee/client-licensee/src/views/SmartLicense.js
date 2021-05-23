@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import HorizontalNonLinearAlternativeLabelStepper from "components/Stepper";
 import React from "react";
@@ -10,21 +11,13 @@ import Tab from "@material-ui/core/Tab";
 import theme from "ColorTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import SLTable from "components/SLTable";
+import SmartLicenseLicensee from "components/smart-license/SmartLicenseLicensee";
+import SmartLicenseLicensor from "components/smart-license/SmartLicenseLicensor";
 
 class SmartLicense extends React.Component {
   constructor(props) {
     super(props);
     this.timeout = 250;
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      value: 0,
-    };
-  }
-  handleChange(event) {
-    this.setState({
-      value: event.target.value,
-      ws: null,
-    });
   }
 
   sendMessage() {
@@ -40,36 +33,11 @@ class SmartLicense extends React.Component {
   render() {
     return (
       <div className="content">
-        <ThemeProvider theme={theme}>
-          {this.props.appState === "1" ? (
-            <div></div>
-          ) : (
-            <Paper square>
-              <Tabs
-                value={this.state.value}
-                onChange={this.handleChange}
-                variant="fullWidth"
-                indicatorColor="secondary"
-                textColor="secondary"
-                aria-label="icon label tabs example"
-              >
-                <Tab icon={<AddIcon />} label="Create Smart License" />
-                <Tab icon={<HistoryIcon />} label="History" />
-              </Tabs>
-            </Paper>
-          )}
-          <Box mt={5}>
-            {this.state.value ? (
-              <SLTable />
-            ) : (
-              <HorizontalNonLinearAlternativeLabelStepper
-                onSubmitMessage={this.props.onSubmitMessage}
-                appState={this.props.appState}
-                isSLConfirmed={this.props.isSLConfirmed}
-              />
-            )}
-          </Box>
-        </ThemeProvider>
+        {this.props.appState === "1" ? (
+          <SmartLicenseLicensor {...this.props} />
+        ) : (
+          <SmartLicenseLicensee {...this.props} />
+        )}
       </div>
     );
   }
