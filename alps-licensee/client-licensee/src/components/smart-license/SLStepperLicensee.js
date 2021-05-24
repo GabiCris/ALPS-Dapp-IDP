@@ -74,8 +74,10 @@ function getStepContent(
   isSLConfirmed,
   setLicensor,
   setSign,
+  setDetails,
   licensor,
-  sign
+  sign,
+  details
 ) {
   const classes = useStylesTextArea();
   switch (step) {
@@ -86,6 +88,17 @@ function getStepContent(
             <CardTitle tag="h4">Submit Smart License Data</CardTitle>
           </CardHeader>
           <CardBody>
+            <Row>
+              <TextField
+                label="Smart License Title"
+                id="filled-margin-none"
+                placeholder="Title"
+                style={{ margin: 8 }}
+                className={classes.textField}
+                variant="filled"
+                onChange={(e) => setDetails(e.target.value)}
+              />
+            </Row>
             <Row>
               <TextField
                 label="Licensor"
@@ -114,7 +127,12 @@ function getStepContent(
                   className="btn-round"
                   onClick={(e) => {
                     e.preventDefault();
-                    onSubmitMessage("New Smart License ", "CREATE", licensor, sign);
+                    onSubmitMessage(
+                      details,
+                      "CREATE",
+                      licensor,
+                      sign
+                    );
                     // this.setState({ message: "" });
                     handleComplete();
                     setActiveStep(1);
@@ -167,7 +185,12 @@ function getStepContent(
       );
 
     case 2:
-      return "Step 3: Both parties have confirmed - Card where you can see that the SL was succesfully uploaded onto the chain.";
+      return (
+        <Box display="flex" justifyContent="center" bgcolor="background.paper">
+          <Box> SL confirmed. Deploying to blockchain...</Box>
+         
+        </Box>
+      );
     default:
       return "Unknown step";
   }
@@ -191,7 +214,7 @@ export default function SLStepperLicensee({
   onSubmitMessage,
   appState,
   isSLConfirmed,
-  step
+  step,
 }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(step);
@@ -200,6 +223,7 @@ export default function SLStepperLicensee({
   const steps = getSteps();
   const [licensor, setLicensor] = React.useState("");
   const [sign, setSign] = React.useState("");
+  const [details, setDetails] = React.useState("");
 
   const totalSteps = () => {
     return getSteps().length;
@@ -328,8 +352,10 @@ export default function SLStepperLicensee({
                   isSLConfirmed,
                   setLicensor,
                   setSign,
+                  setDetails,
                   licensor,
-                  sign
+                  sign,
+                  details
                 )}
               </Typography>
             </div>

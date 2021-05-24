@@ -7,46 +7,54 @@ import { ThemeProvider } from "@material-ui/styles";
 // const columns = ["ID", "Licensee", "State", "Message", "Licensor"];
 const columns = [
   {
-   name: "party",
-   label: "ID",
-   options: {
-    filter: true,
-    sort: true,
-   }
+    name: "party",
+    label: "ID",
+    options: {
+      filter: true,
+      sort: true,
+    },
   },
   {
-   name: "name",
-   label: "Licensee",
-   options: {
-    filter: true,
-    sort: false,
-   }
+    name: "message",
+    label: "Label",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+  {
+    name: "licensee",
+    label: "Licensee",
+    options: {
+      filter: true,
+      sort: false,
+    },
   },
   {
     name: "licensor",
     label: "Licensor",
     options: {
-     filter: true,
-     sort: false,
-    }
-   },
-  {
-   name: "type",
-   label: "State",
-   options: {
-    filter: true,
-    sort: false,
-   }
+      filter: true,
+      sort: false,
+    },
   },
   {
-   name: "message",
-   label: "Label",
-   options: {
-    filter: true,
-    sort: false,
-   }
+    name: "type",
+    label: "State",
+    options: {
+      filter: true,
+      sort: false,
+    },
   },
- ];
+  {
+    name: "address",
+    label: "Created SL adr.",
+    options: {
+      filter: true,
+      sort: false,
+    },
+  },
+];
 // const data = [
 //   ["01241", "License co.1", "10/09/2020", "Pending"],
 //   ["91236", "License Demo", "05/02/2021", "Failed"],
@@ -58,7 +66,7 @@ const options = {
   filterType: "checkbox",
 };
 
-export default function SLTable({messages}) {
+export default function SLTable({ messages }) {
   return (
     <div>
       <ThemeProvider theme={theme}>

@@ -18,14 +18,20 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Card from "@material-ui/core/Card";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import IconButton from "@material-ui/core/IconButton";
+import CancelIcon from '@material-ui/icons/Cancel';
 
 function generate(arr, ws) {
+  if (arr.length === 0) {
+    return <ListItem key={0}>
+      <ListItemText primary={"No Smart Licenses needing approval"} />
+    </ListItem>
+  }
   return arr.map((msg, index) => (
     //   React.cloneElement(element, {
     //     key: index,
     //   }),
     <ListItem key={index}>
-      <ListItemText primary={msg.message} secondary={"Licensee: " + msg.name} />
+      <ListItemText primary={msg.message} secondary={"Licensee: " + msg.licensee} />
       <ListItemSecondaryAction>
         <IconButton edge="end" aria-label="delete">
           <CheckCircleIcon
@@ -34,12 +40,23 @@ function generate(arr, ws) {
               const message = {
                 type: "ACCEPT",
               };
-              // const message = { name: this.state.appState === "0" ? "LICENSEE" : "LICENSOR", message: messageString };
+              ws.send(JSON.stringify(message));
+            }}
+          />
+        </IconButton>
+        <IconButton edge="end" aria-label="delete">
+          <CancelIcon
+            onClick={(e) => {
+              e.preventDefault();
+              const message = {
+                type: "REJECT",
+              };
               ws.send(JSON.stringify(message));
             }}
           />
         </IconButton>
       </ListItemSecondaryAction>
+      
     </ListItem>
   ));
 }
