@@ -38,6 +38,7 @@ function generate(arr, ws) {
             onClick={(e) => {
               e.preventDefault();
               const message = {
+                message: msg.message,
                 type: "ACCEPT",
               };
               ws.send(JSON.stringify(message));
@@ -49,6 +50,7 @@ function generate(arr, ws) {
             onClick={(e) => {
               e.preventDefault();
               const message = {
+                message: msg.message,
                 type: "REJECT",
               };
               ws.send(JSON.stringify(message));
@@ -78,7 +80,7 @@ class SmartLicenseLicensor extends React.Component {
 
   render() {
     console.log("props in licensor", this.props.messages);
-    let verifiableSLs = this.props.messages.map((msg) => {
+    let verifiableSLs = Array.from(this.props.messages.values()).map((msg) => {
       if (msg.type === "CREATE") {
         return msg;
       }

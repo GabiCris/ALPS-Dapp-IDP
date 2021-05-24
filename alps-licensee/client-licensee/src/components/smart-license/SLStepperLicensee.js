@@ -23,6 +23,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const useStylesTextArea = makeStyles((theme) => ({
   root: {
@@ -143,9 +144,12 @@ function getStepContent(
               </Col>
 
               <Col md="6">
+                <Link to="/licensee/filter">
+
                 <Button color="primary" block className="btn-round">
                   Download Smart Contract
                 </Button>
+                </Link>
               </Col>
             </Row>
 

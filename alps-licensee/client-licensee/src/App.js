@@ -52,7 +52,7 @@ class App extends React.Component {
       ipDeviceMap: null,
       ipSlMap: null,
       needRefresh: false,
-      messages: [],
+      messages: new Map(),
       isSLConfirmed: false,
       slCreationList: [],
       isSlRejected: false,
@@ -150,9 +150,9 @@ class App extends React.Component {
       const message = JSON.parse(evt.data);
       console.log("MESSAGE RECEIVED:", message);
       if (message.type === "ACCEPT") {
-        this.confirmSL();
+        this.confirmSL(message.message);
       } else if (message.type === "REJECT") {
-        this.rejectSL();
+        this.rejectSL(message.message);
       } else if (this.state.appState === "1" && message.type === "CREATE") {
         const mess = {
           party: this.state.appState,
@@ -164,12 +164,12 @@ class App extends React.Component {
         };
         this.addMessage(mess);
       } else if (this.state.appState === "1" && message.type === "DEPLOYED") {
-        let items = [...this.state.messages];
-        let item = { ...items[items.length - 1] };
+        let item = this.state.messages.get(message.message);
         item.type = "DEPLOYED";
         item["address"] = message.address;
-        items[items.length - 1] = item;
-        this.setState({ messages: items });
+        this.setState({
+          messages: new Map(this.state.messages.set(message.message, item)),
+        });
       }
     };
 
@@ -184,7 +184,7 @@ class App extends React.Component {
   }
 
   addMessage(message) {
-    this.setState((state) => ({ messages: [message, ...state.messages] }));
+    this.setState(new Map(this.state.messages.set(message.message, message)));
   }
 
   submitMessage(messageString, type, licensor, sign) {
@@ -201,38 +201,38 @@ class App extends React.Component {
       ws.send(JSON.stringify(message));
       this.addMessage(message);
     } else if (type === "ACCEPT") {
-      let items = [...this.state.messages];
-      let item = { ...items[items.length - 1] };
+      let item = this.state.messages.get(messageString);
       item.type = "ACCEPT";
-      items[items.length - 1] = item;
-      this.setState({ messages: items });
+      this.setState({
+        messages: new Map(this.state.messages.set(messageString, item)),
+      });
     } else if (type === "REJECT") {
-      let items = [...this.state.messages];
-      let item = { ...items[items.length - 1] };
+      let item = this.state.messages.get(messageString);
       item.type = "REJECT";
-      items[items.length - 1] = item;
-      this.setState({ messages: items });
+      this.setState({
+        messages: new Map(this.state.messages.set(messageString, item)),
+      });
     }
   }
 
-  confirmSL() {
+  confirmSL(key) {
     this.setState({
       isSLConfirmed: true,
     });
-    this.submitMessage("", "ACCEPT", "", "");
+    this.submitMessage(key, "ACCEPT", "", "");
     if (this.state.appState === "0") {
-      this.deploySL();
+      this.deploySL(key);
     }
   }
 
-  rejectSL() {
+  rejectSL(key) {
     this.setState({
       isSlRejected: true,
     });
-    this.submitMessage("", "REJECT", "", "");
+    this.submitMessage(key, "REJECT", "", "");
   }
 
-  deploySL() {
+  deploySL(key) {
     let contractsAbi = getContractsAbi();
     let abi = contractsAbi.get("SmartLicense3");
     console.log("ABI", abi);
@@ -259,14 +259,14 @@ class App extends React.Component {
           "Deployed Contract Address : ",
           newContractInstance.options.address
         );
-        let items = [...this.state.messages];
-        let item = { ...items[items.length - 1] };
+
+        let item = this.state.messages.get(key);
         item.type = "DEPLOYED";
         item["address"] = newContractInstance.options.address;
-        items[items.length - 1] = item;
-        console.log("items in deploy:", items);
         ws.send(JSON.stringify(item));
-        this.setState({ messages: items });
+        this.setState({
+          messages: new Map(this.state.messages.set(key, item)),
+        });
       });
   }
 

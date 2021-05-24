@@ -8,6 +8,7 @@ import Sidebar from "components/Sidebar";
 import DemoNavbar from "components/DemoNavbar";
 
 import routes from "routes.js";
+import FilteredActiveLicenses from "views/FilteredActiveLicenses";
 
 var ps;
 
@@ -45,6 +46,13 @@ class Dashboard extends React.Component {
     this.setState({ backgroundColor: color });
   };
   render() {
+    let addedRoutes = [...routes];
+    addedRoutes.push({
+      path: "/filter/:id",
+      name: "Single View",
+      component: FilteredActiveLicenses,
+      layout: "/licensee",
+    })
     return (
       <div className="wrapper">
         <Sidebar
@@ -56,16 +64,28 @@ class Dashboard extends React.Component {
         <div className="main-panel" ref={this.mainPanel}>
           <DemoNavbar {...this.props} />
           <Switch>
-            {routes.map((prop, key) => {
+            {addedRoutes.map((prop, key) => {
               return (
                 <Route
                   path={prop.layout + prop.path}
-                 // component={prop.component}
-                  render={() => <prop.component {...this.props}/>}
+                  // component={prop.component}
+                  render={() => <prop.component {...this.props} />}
                   key={key}
                 />
               );
             })}
+            {/* <Route
+              path="/licensee/filter"
+              render={() => (
+                <>
+                  <div className="content">
+                    ID: {this.props.match.params}
+                    <SLTable messages={[]} />
+                  </div>{" "}
+                </>
+              )}
+              key={150}
+            ></Route> */}
           </Switch>
           <Footer fluid />
         </div>

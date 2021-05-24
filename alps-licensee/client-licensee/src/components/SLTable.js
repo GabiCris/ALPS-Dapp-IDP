@@ -7,19 +7,11 @@ import { ThemeProvider } from "@material-ui/styles";
 // const columns = ["ID", "Licensee", "State", "Message", "Licensor"];
 const columns = [
   {
-    name: "party",
+    name: "message",
     label: "ID",
     options: {
       filter: true,
       sort: true,
-    },
-  },
-  {
-    name: "message",
-    label: "Label",
-    options: {
-      filter: true,
-      sort: false,
     },
   },
   {
@@ -67,12 +59,16 @@ const options = {
 };
 
 export default function SLTable({ messages }) {
+ let data = [];
+ for (let msg of messages.values()) {
+   data.push(msg);
+ }
   return (
     <div>
       <ThemeProvider theme={theme}>
         <MUIDataTable
           title={"Smart Licenses"}
-          data={messages}
+          data={data}
           columns={columns}
           options={options}
         />
