@@ -70,8 +70,10 @@ class SmartLicenseLicensee extends React.Component {
                 onSubmitMessage={this.props.onSubmitMessage}
                 appState={this.props.appState}
                 isSLConfirmed={this.props.isSLConfirmed}
+                isSLRejected={this.props.isSLRejected}
                 messages={this.props.messages}
                 step={step}
+                setSLState={this.props.setSLState}
               />
             )}
           </Box>

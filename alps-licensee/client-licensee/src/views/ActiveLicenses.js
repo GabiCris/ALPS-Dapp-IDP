@@ -57,14 +57,7 @@ class ActiveLicenses extends React.Component {
     this.setState({
       keysArr: [...this.state.keysArr, auxArr],
     });
-    //let contract1Map = this.getContractMap(contract1);
-    // let contracts = drizzle.contracts;
-    // for (var key of Object.keys(drizzle.contracts)) {
-    //   console.log(key + " -> " + drizzle.contracts[key]);
-    //   let licenseeKey = contracts[key].methods["licensee"].cacheCall();
-    //   let licensorKey = contracts[key].methods["licensor"].cacheCall();
-    //   keysM.set(contracts[key], [licenseeKey, licensorKey]);
-    // }
+
     this.setState({
       contracts: JSON.parse(localStorage.getItem("contracts")),
     });
@@ -101,7 +94,6 @@ class ActiveLicenses extends React.Component {
         }
       }
     }
-    // console.log("EXAMPLE:", this.props.drizzleState.contracts["0xb4715De57a52921a165BeAB9bDA33bc66204CC69"].licensee["0x0"]);
 
     return newData;
   }
@@ -112,15 +104,6 @@ class ActiveLicenses extends React.Component {
     return (
       <>
         <div className="content">
-          {/* <Row>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.props.onRefresh}
-            >
-              Refresh
-            </Button>
-          </Row> */}
           <Row>
             <Col md="12">
               <ActiveLicensesTable {...this.props} data={tableData} />

@@ -78,8 +78,12 @@ function getStepContent(
   setDetails,
   licensor,
   sign,
-  details
+  details,
+  isSLRejected,
+  setSLState,
+  messages
 ) {
+  let confirmed = false;
   const classes = useStylesTextArea();
   switch (step) {
     case 0:
@@ -110,7 +114,7 @@ function getStepContent(
                 onChange={(e) => setLicensor(e.target.value)}
               />
 
-              <TextField
+              {/* <TextField
                 id="filled-full-width"
                 label="Private Signature"
                 style={{ margin: 8 }}
@@ -118,7 +122,7 @@ function getStepContent(
                 fullWidth
                 variant="filled"
                 onChange={(e) => setSign(e.target.value)}
-              />
+              /> */}
             </Row>
             <Row>
               <Col md="6">
@@ -128,12 +132,7 @@ function getStepContent(
                   className="btn-round"
                   onClick={(e) => {
                     e.preventDefault();
-                    onSubmitMessage(
-                      details,
-                      "CREATE",
-                      licensor,
-                      sign
-                    );
+                    onSubmitMessage(details, "CREATE", licensor, sign);
                     // this.setState({ message: "" });
                     handleComplete();
                     setActiveStep(1);
@@ -145,10 +144,9 @@ function getStepContent(
 
               <Col md="6">
                 <Link to="/licensee/filter">
-
-                <Button color="primary" block className="btn-round">
-                  Download Smart Contract
-                </Button>
+                  <Button color="primary" block className="btn-round">
+                    Download Smart Contract
+                  </Button>
                 </Link>
               </Col>
             </Row>
@@ -184,26 +182,45 @@ function getStepContent(
     case 1:
       return (
         <Card>
-          {conditionalRender(isSLConfirmed, handleComplete, setActiveStep)}
+          {
+            (confirmed = conditionalRender(
+              isSLConfirmed,
+              isSLRejected,
+              handleComplete,
+              setActiveStep,
+              setSLState
+            ))
+          }
         </Card>
       );
 
     case 2:
-      return (
-        <Box display="flex" justifyContent="center" bgcolor="background.paper">
-          <Box> SL confirmed. Deploying to blockchain...</Box>
-         
-        </Box>
+      return conditionalRenderStep2(
+        messages,
+        details,
+        isSLConfirmed,
+        isSLRejected,
+        handleComplete,
+        setActiveStep,
+        setSLState
       );
     default:
       return "Unknown step";
   }
 }
 
-function conditionalRender(isSLConfirmed, handleComplete, setActiveStep) {
-  if (isSLConfirmed) {
+function conditionalRender(
+  isSLConfirmed,
+  isSLRejected,
+  handleComplete,
+  setActiveStep,
+  setSLState
+) {
+  if (isSLConfirmed || isSLRejected) {
     handleComplete();
     setActiveStep(2);
+    // setSLState();
+    return true;
   } else {
     return (
       <Box display="flex" justifyContent="center">
@@ -214,11 +231,41 @@ function conditionalRender(isSLConfirmed, handleComplete, setActiveStep) {
   }
 }
 
+function conditionalRenderStep2(
+  messages,
+  details,
+  isSLConfirmed,
+  isSLRejected,
+  handleComplete,
+  setActiveStep,
+  setSLState
+) {
+  if (isSLConfirmed || isSLRejected) {
+    setSLState();
+  }
+  let msg = messages.get(details);
+
+  let confirmed = msg.type === "DEPLOYED";
+  return (
+    <Box display="flex" justifyContent="center" bgcolor="background.paper">
+      <Box>
+        {" "}
+        {confirmed
+          ? "SL confirmed. Deploying to blockchain..."
+          : "Smart License deployment rejected."}{" "}
+      </Box>
+    </Box>
+  );
+}
+
 export default function SLStepperLicensee({
   onSubmitMessage,
   appState,
   isSLConfirmed,
+  isSLRejected,
   step,
+  messages,
+  setSLState,
 }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(step);
@@ -245,7 +292,9 @@ export default function SLStepperLicensee({
       throw new Error("You can't skip a step that isn't optional.");
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => {
+      prevActiveStep + 1;
+    });
     setSkipped((prevSkipped) => {
       const newSkipped = new Set(prevSkipped.values());
       newSkipped.add(activeStep);
@@ -359,7 +408,10 @@ export default function SLStepperLicensee({
                   setDetails,
                   licensor,
                   sign,
-                  details
+                  details,
+                  isSLRejected,
+                  setSLState,
+                  messages
                 )}
               </Typography>
             </div>
