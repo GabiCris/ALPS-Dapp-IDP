@@ -1,23 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { newContextComponents } from "@drizzle/react-components";
-const { AccountData, ContractData, ContractForm } = newContextComponents;
 
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table,
-  Row,
-  Col,
-} from "reactstrap";
-import { PaymentsPie } from "components/charts/PaymentsPie";
-import dataPie from "components/charts/data-pay-pie.json";
-import { ActLineChart } from "components/charts/ActLicLineChart";
-import dataActLine from "components/charts/data-actLic-line.json";
-import { Button, TextField } from "@material-ui/core";
+import { Row, Col } from "reactstrap";
+
 import PaymentsHistoryTable from "components/table/PaymentsHistoryTable";
 
 function timeConverter(UNIX_timestamp) {
@@ -52,7 +38,8 @@ class Payments extends React.Component {
             e.blockNumber,
             e.returnValues._amount,
             e.returnValues._dueAmount,
-            parseInt(e.returnValues._dueAmount) - parseInt(e.returnValues._amount),
+            parseInt(e.returnValues._dueAmount) -
+              parseInt(e.returnValues._amount),
             timeConverter(e.returnValues._timestamp),
           ]);
         }
@@ -63,11 +50,15 @@ class Payments extends React.Component {
             e.blockNumber,
             e.returnValues._amount,
             e.returnValues._dueAmount,
-            parseInt(e.returnValues._dueAmount) + parseInt(e.returnValues._amount),
+            parseInt(e.returnValues._dueAmount) +
+              parseInt(e.returnValues._amount),
             timeConverter(e.returnValues._timestamp),
             timeConverter(e.returnValues._deadline),
           ]);
-          console.log("EVENT EMITTER DEADLINE:" ,timeConverter(e.returnValues._deadline));
+          console.log(
+            "EVENT EMITTER DEADLINE:",
+            timeConverter(e.returnValues._deadline)
+          );
         }
       }
     }
@@ -99,7 +90,6 @@ class Payments extends React.Component {
               />
             </Col>
           </Row>
-          
         </div>
       </>
     );
