@@ -10,17 +10,18 @@ import "components/charts/chart.scss";
 import { DevicesLineChart } from "components/charts/DevicesLineChart";
 import dataLineCh from "components/charts/data-line.json";
 import DeviceIpTableExpansion from "./DeviceIpTableExtension";
+import MUIDataTable from "mui-datatables";
 
-// const data1 = [
-//   ["1111", "Bluetooth v21.4", "Contract 1"],
-//   ["2222", "Wi-Free 2", "Contract 2"],
-//   ["3333", "15G - Wave", "Contract 3"],
-// ];
-// const data2 = [
-//   ["1111", "Bluetooth v21.4", "Contract 1"],
-//   ["5555", "Tunnel Cable", "Contract 5"],
-// ];
-
+const data1 = [
+  ["1111", "Bluetooth v21.4", "Contract 1"],
+  ["2222", "Wi-Free 2", "Contract 2"],
+  ["3333", "15G - Wave", "Contract 3"],
+];
+const data2 = [
+  ["1111", "Bluetooth v21.4", "Contract 1"],
+  ["5555", "Tunnel Cable", "Contract 5"],
+];
+const columns = ["IP", "Name"];
 class DevicesTableExpansion extends React.Component {
   constructor(props){
     super(props);
@@ -28,12 +29,12 @@ class DevicesTableExpansion extends React.Component {
   render() {
     return (
       <>
-    
+  
         <Box margin={1}>
           <Card>
             {console.log("INDEX: "+ this.props.dataIndex)}
             {console.log("DATA FOR ROW:", this.props.data[this.props.dataIndex])}
-            <DeviceIpTableExpansion data={this.props.data[this.props.dataIndex]}/>
+            <MUIDataTable data={data2} columns={columns} />
             {/* data={this.props.dataIndex == 0 ? data1 : data2}/> */}
           </Card>
         </Box>

@@ -270,7 +270,7 @@ class App extends React.Component {
   deploySL(key, sign, m) {
     let bytecode = SmartLicense3.bytecode;
     // account hardcorded for testing, for prod -> account = this.state.token (the account adr.)
-    let account = "0x34E46e52035ec24e588bD22A7cC862C63bc69E56";
+    let account = "0x0b94431D616Ef6f1Db1FFAcbd6f9793cbAb1d3eC";
     let abi = new web3.eth.Contract(SmartLicense3.abi);
 
     let payload = {

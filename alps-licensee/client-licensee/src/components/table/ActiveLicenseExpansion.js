@@ -1,6 +1,22 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import FolderIcon from '@material-ui/icons/Folder';
+import Divider from '@material-ui/core/Divider';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import {
   Card,
@@ -37,15 +53,16 @@ class ActiveLicensesExpansion extends React.Component {
           <div className="card-simple">
             <Card>
               <CardHeader>
-                <CardTitle tag="h5"> Smart License {licenseAdr} </CardTitle>
-                <CardSubtitle tag="h6"> {licensor}</CardSubtitle>
+                <CardTitle tag="h5"> Smart License - {licensor} </CardTitle>
               </CardHeader>
               <CardBody>
                 <Row>
                   <Col md="4">
                     <Card className="card-simple">
+                      <CardSubtitle> Related Smart Licenses </CardSubtitle>
                       <CardBody>
-                        <ListGroup className="list-group-flush">
+                    
+                        {/* <ListGroup className="list-group-flush">
                           <ListGroupItemHeading>
                             Licenses Active for {licensor}
                           </ListGroupItemHeading>
@@ -59,7 +76,24 @@ class ActiveLicensesExpansion extends React.Component {
                             {" "}
                             {this.props.licensors.get(licensor)[2]}
                           </ListGroupItem>
-                        </ListGroup>
+                        </ListGroup> */}
+                        <List dense={false}>
+              
+                <ListItem>
+                  <ListItemText
+                    primary={this.props.licensors.get(licensor)[0]}
+                    // secondary={secondary ? 'Secondary text' : null}
+                  />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                <ListItem>
+                  <ListItemText
+                    primary={this.props.licensors.get(licensor)[1]}
+                    // secondary={secondary ? 'Secondary text' : null}
+                  />
+                </ListItem>
+        
+            </List>
                       </CardBody>
                     </Card>
                     <Row>
@@ -68,7 +102,7 @@ class ActiveLicensesExpansion extends React.Component {
                           <Card className="card-stats">
                             <CardBody>
                               <Row>
-                                <Col md="4" xs="5">
+                                <Col>
                                   <div className="icon-big text-center icon-warning">
                                     <i className="nc-icon nc-money-coins text-success" />
                                   </div>
@@ -93,7 +127,7 @@ class ActiveLicensesExpansion extends React.Component {
                           <Card className="card-stats">
                             <CardBody>
                               <Row>
-                                <Col md="4" xs="5">
+                                <Col >
                                   <div className="icon-big text-center icon-warning">
                                     <i className="nc-icon nc-tile-56" />
                                   </div>
@@ -140,8 +174,8 @@ class ActiveLicensesExpansion extends React.Component {
                     </Col>
                     <Col className="mr-auto" lg="3">
                       <h5>
-                        254,6$ <br />
-                        <small>Last Months Payments</small>
+                        1250$ <br />
+                        <small>Total Due Payment</small>
                       </h5>
                     </Col>
                   </Row>

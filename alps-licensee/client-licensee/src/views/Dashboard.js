@@ -49,6 +49,8 @@ import dataActLine from "components/charts/data-actLic-line.json";
 import dataLineCh from "components/charts/data-line.json";
 import { DevicesLineChart } from "components/charts/DevicesLineChart";
 import { DashboardBarGraph } from "components/charts/DashboardBarGraph";
+import PaymentIcon from "@material-ui/icons/Payment";
+import SettingsInputSvideoIcon from "@material-ui/icons/SettingsInputSvideo";
 
 function truncateText(text, length) {
   if (text.length <= length) {
@@ -56,12 +58,6 @@ function truncateText(text, length) {
   }
 
   return text.substr(0, length) + "\u2026";
-}
-
-function randomDate(start, end) {
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  );
 }
 
 class Dashboard extends React.Component {
@@ -261,38 +257,48 @@ class Dashboard extends React.Component {
       ipMap.set(ip.toString(), []);
     }
     // iterate through transactions -> add to ipMap
-    let noDays = 4;
     for (let a of this.props.transactionHistory) {
-      let rDate = randomDate(new Date(2021, 0, 1), new Date());
+      // let rDate = randomDate(new Date(2021, 0, 1), new Date());
       console.log("TRANSACTION HISTORY", this.props.transactionHistory);
       for (let instance of a) {
         let trIp = slIpMap.get(instance[0]);
         if (ipMap.has(trIp)) {
           // ipMap.get(trIp).push({ x: instance[6], y: parseInt(instance[5]) });
-          let date = new Date(Date.parse(instance[6]));
-          date.setDate(date.getDate() - noDays);
+          let date = new Date(Date.parse(instance[7]));
+          // date.setDate(date.getDate() - noDays);
           ipMap.get(trIp).push({
             x: date.toISOString().split("T")[0],
             y: parseInt(instance[5]),
           });
-          rDate = randomDate(rDate, new Date());
-          noDays += 3;
+          // rDate = randomDate(rDate, new Date());
+          // noDays += 3;
         }
       }
     }
-    for (let [key, value] of ips) {
-      if (key !== 0) {
-        let a = [];
-        for (let ip of value) {
-          a = a.concat(ipMap.get(ip.toString()));
-        }
-        trData.push({
+    // console.log("IPMAP", ipMap)
+    // for (let [key, value] of ips) {
+    //   if (key !== 0) {
+    //     let a = [];
+    //     for (let ip of value) {
+    //       a = a.concat(ipMap.get(ip.toString()));
+    //     }
+    //     trData.push({
+    //       id: key,
+    //       data: a,
+    //     });
+    //   }
+    // }
+    let newData = [];
+    for (let [key, value] of ipMap) {
+      if (value.length !== 0) {
+        newData.push({
           id: key,
-          data: a,
+          data: value,
         });
       }
     }
-    return trData;
+    console.log("TABLE DATA:", newData);
+    return newData;
   }
 
   checkDataLoaded(barGraphData) {
@@ -307,6 +313,63 @@ class Dashboard extends React.Component {
     return true;
   }
 
+  getPaymentGraphData() {
+    let trHistory = this.props.transactionHistory;
+    var options = { month: "long" };
+    let payMap = new Map();
+    for (let tr of trHistory) {
+      for (let instance of tr) {
+        let dueDate = new Date(Date.parse(instance[7]));
+        let month = new Intl.DateTimeFormat("en-US", options).format(dueDate);
+        payMap.has(month)
+          ? payMap.set(month, payMap.get(month) + parseInt(instance[3]))
+          : payMap.set(month, parseInt(instance[3]));
+      }
+    }
+
+    console.log("paymap", payMap);
+    let data = [{ id: "Monthly Payments Breakdown", data: [] }];
+    for (let [key, value] of payMap) {
+      data[0].data.push({
+        x: key,
+        y: value,
+      });
+    }
+    console.log("FINAL DATA", data);
+    return data;
+  }
+
+  getDuePayments() {
+    let trHistory = this.props.transactionHistory;
+    var options = { month: "long" };
+    let dueAmount = 0;
+    for (let tr of trHistory) {
+      for (let instance of tr) {
+        let dueDate = new Date(Date.parse(instance[7]));
+        let month = new Intl.DateTimeFormat("en-US", options).format(dueDate);
+        if (month === "June") {
+          dueAmount += parseInt(instance[3]);
+        }
+      }
+    }
+    return dueAmount;
+  }
+
+  getOverDuePayments() {
+    let trHistory = this.props.transactionHistory;
+    var options = { month: "long" };
+    let dueAmount = 0;
+    for (let tr of trHistory) {
+      for (let instance of tr) {
+        let dueDate = new Date(Date.parse(instance[7]));
+        let currentTime = new Date();
+        if (dueDate <= currentTime) {
+          dueAmount += parseInt(instance[3]);
+        }
+      }
+    }
+    return dueAmount;
+  }
   render() {
     let data = this.getDueAmount();
     console.log("DUE AMOUNT DATA", data);
@@ -318,6 +381,8 @@ class Dashboard extends React.Component {
     let deviceNo = aux_data[0];
     let barGraphData = aux_data[1];
 
+    let monthlyPayData = this.getPaymentGraphData();
+
     if (this.checkDataLoaded(barGraphData) && !this.state.loadedData) {
       this.setState({
         loadedData: true,
@@ -328,8 +393,8 @@ class Dashboard extends React.Component {
     return (
       <>
         <div className="content">
-          <Row>
-            <Col lg="3" md="6" sm="6">
+          <Row className="justify-content-md-center">
+            <Col lg="4" md="6" sm="6">
               <Link to={"/licensee/payments"}>
                 <Card className="card-stats">
                   <CardBody>
@@ -360,6 +425,75 @@ class Dashboard extends React.Component {
                 </Card>
               </Link>
             </Col>
+
+            <Col lg="4" md="6" sm="6">
+              <Link to={"/licensee/payments"}>
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="4" xs="5">
+                        <div className="icon-big text-center icon-warning">
+                          <PaymentIcon
+                            fontSize="large"
+                            style={{ color: "#51cbce" }}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="8" xs="7">
+                        <div className="numbers">
+                          <p className="card-category">Current Due Amount</p>
+                          <CardTitle tag="p">
+                            $ {this.getDuePayments()}
+                          </CardTitle>
+                          <p />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    <div className="stats">
+                      <i className="fas fa-sync-alt" /> Due Amount by 06.30.2021
+                    </div>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </Col>
+
+            <Col lg="4" md="6" sm="6">
+              <Link to={"/licensee/payments"}>
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="4" xs="5">
+                        <div className="icon-big text-center icon-warning">
+                          <AccountBalanceIcon
+                            fontSize="large"
+                            style={{ color: "#51cbce" }}
+                          />
+                        </div>
+                      </Col>
+                      <Col md="8" xs="7">
+                        <div className="numbers">
+                          <p className="card-category">Outstanding Sum</p>
+                          <CardTitle tag="p">
+                            $ {this.getOverDuePayments()}
+                          </CardTitle>
+                          <p />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    <div className="stats">
+                      <i className="fas fa-sync-alt" /> Total already due by
+                      07.06.2021
+                    </div>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </Col>
             <Col lg="3" md="6" sm="6">
               <Link to={"/licensee/ip"}>
                 <Card className="card-stats">
@@ -367,7 +501,7 @@ class Dashboard extends React.Component {
                     <Row>
                       <Col md="4" xs="5">
                         <div className="icon-big text-center icon-warning">
-                          <AccountBalanceIcon
+                          <SettingsInputSvideoIcon
                             fontSize="large"
                             style={{ color: "#51cbce" }}
                           />
@@ -462,58 +596,145 @@ class Dashboard extends React.Component {
               </Link>
             </Col>
           </Row>
+          {this.props.appState === "0" ? (
+            <>
+              <Row>
+                <Col md="4">
+                  <Card className="chart">
+                    <CardHeader>
+                      <CardTitle tag="h5">Payments Breakdown</CardTitle>
+                      <p className="card-category">
+                        {this.props.appState === "0"
+                          ? "June 2021"
+                          : "Total Due Amount per Licensee"}
+                      </p>
+                    </CardHeader>
+                    <CardBody>
+                      <PaymentsPie
+                        data={paymentGraphData}
+                        paymentData={paymentGraphData}
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="8">
+                  <Card className="chart">
+                    <CardHeader>
+                      <CardTitle tag="h5">IP Device Distribution</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <DashboardBarGraph
+                        data={barGraphData}
+                        // data={this.state.ipBarData}
+                        devices={Array.from(this.props.deviceManagers.keys())}
+                        loadedData={this.state.loadedData}
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
 
-          <Row>
-            <Col md="4">
-              <Card className="chart">
-                <CardHeader>
-                  <CardTitle tag="h5">Payments Breakdown</CardTitle>
-                  <p className="card-category">
-                    {this.props.appState === "0"
-                      ? "March 2021"
-                      : "Total Due Amount per Licensee"}
-                  </p>
-                </CardHeader>
-                <CardBody>
-                  <PaymentsPie
-                    data={paymentGraphData}
-                    paymentData={paymentGraphData}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md="8">
-              <Card className="chart">
-                <CardHeader>
-                  <CardTitle tag="h5">IP Device Distribution</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <DashboardBarGraph
-                    data={barGraphData}
-                    // data={this.state.ipBarData}
-                    devices={Array.from(this.props.deviceManagers.keys())}
-                    loadedData={this.state.loadedData}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+              <Row>
+                <Col>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle tag="h5">Monthly Due Payments</CardTitle>
+                      {/* <p className="card-category">2021</p> */}
+                    </CardHeader>
+                    <CardBody>
+                      <div className="chart">
+                        <ActLineChart data={monthlyPayData} />
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
 
-          <Row>
-            <Col>
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h5">Device Payments Statistics</CardTitle>
-                  <p className="card-category">2021</p>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart">
-                    <DevicesLineChart data={deviceUsageData} />
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+              <Row>
+                <Col>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle tag="h5">IP Payments Statistics</CardTitle>
+                      <p className="card-category">2021</p>
+                    </CardHeader>
+                    <CardBody>
+                      <div className="chart">
+                        <DevicesLineChart data={deviceUsageData} />
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </>
+          ) : (
+            <>
+              <Row>
+                <Col>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle tag="h5">IP Payments Statistics</CardTitle>
+                      <p className="card-category">2021</p>
+                    </CardHeader>
+                    <CardBody>
+                      <div className="chart">
+                        <DevicesLineChart data={deviceUsageData} />
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="4">
+                  <Card className="chart">
+                    <CardHeader>
+                      <CardTitle tag="h5">Payments Breakdown</CardTitle>
+                      <p className="card-category">
+                        {this.props.appState === "0"
+                          ? "March 2021"
+                          : "Total Due Amount per Licensee"}
+                      </p>
+                    </CardHeader>
+                    <CardBody>
+                      <PaymentsPie
+                        data={paymentGraphData}
+                        paymentData={paymentGraphData}
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="8">
+                  <Card className="chart">
+                    <CardHeader>
+                      <CardTitle tag="h5">IP Device Distribution</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <DashboardBarGraph
+                        data={barGraphData}
+                        // data={this.state.ipBarData}
+                        devices={Array.from(this.props.deviceManagers.keys())}
+                        loadedData={this.state.loadedData}
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle tag="h5">Monthly Due Payments</CardTitle>
+                      {/* <p className="card-category">2021</p> */}
+                    </CardHeader>
+                    <CardBody>
+                      <div className="chart">
+                        <ActLineChart data={monthlyPayData} />
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </>
+          )}{" "}
         </div>
       </>
     );

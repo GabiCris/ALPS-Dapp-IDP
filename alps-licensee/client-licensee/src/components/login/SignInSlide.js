@@ -29,6 +29,9 @@ import backgr2 from "assets/backgrounds/background2.jpg";
 import backman from "assets/backgrounds/man-backgr.jpg";
 import backFin from "assets/backgrounds/back-bank.jpg";
 import backVendor from "assets/backgrounds/back-vendor.jpg";
+import licensee1 from "assets/backgrounds/licensee-1.jpg";
+import licensor1 from "assets/backgrounds/licensor-1.jpg";
+
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -110,7 +113,7 @@ export default function SignInSlide({ setToken, setAppState }) {
             <figure>
               <img
                 className="img-background"
-                src={screenState ? backVendor : backman}
+                src={screenState ? licensor1 : licensee1}
               />
             </figure>
           </div>

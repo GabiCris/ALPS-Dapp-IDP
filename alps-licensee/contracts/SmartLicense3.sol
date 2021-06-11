@@ -9,7 +9,8 @@ contract SmartLicense3 {
     uint256 public dueAmount = 1240;
     uint256 public ip = 5555;
     event PaymentAcknowledged(uint256 _amount, uint256 _dueAmount, uint256 _timestamp);
-    event RoyaltyComputed(uint256 _amount, uint256 _dueAmount, uint256 _timestamp);
+    event RoyaltyComputed(uint256 _amount, uint256 _dueAmount, uint256 _timestamp, uint256 _deadline);
+    uint256 aux_time = 0; 
 
     function acknowledgePayment(uint256 amount) public {
         setDueAmount(dueAmount - amount);
@@ -18,7 +19,8 @@ contract SmartLicense3 {
 
     function computeRoyalty(uint256 amount) public {
         setDueAmount(dueAmount + amount);
-        emit RoyaltyComputed(amount, dueAmount, block.timestamp);
+        aux_time = aux_time + 864000;
+        emit RoyaltyComputed(amount, dueAmount, block.timestamp, block.timestamp + aux_time - 950400);
     }
     function setDueAmount(uint256 x) public {
         dueAmount = x;

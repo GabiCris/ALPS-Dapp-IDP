@@ -30,7 +30,7 @@ export const ActLineChart = ({ data /* see data tab */ }) => (
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Monthly Fees',
+            legend: 'Royalties',
             legendOffset: -40,
             legendPosition: 'middle'
         }}

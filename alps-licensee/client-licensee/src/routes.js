@@ -22,6 +22,14 @@ var routes = [
     component: Dashboard,
     layout: "/licensee",
   },
+
+  {
+    path: "/payments",
+    name: "Payments",
+    icon: "nc-icon nc-money-coins",
+    component: Payments,
+    layout: "/licensee",
+  },
   {
     path: "/licenses",
     name: "Active Licenses",
@@ -37,13 +45,7 @@ var routes = [
     layout: "/licensee",
   },
 
-  {
-    path: "/payments",
-    name: "Payments",
-    icon: "nc-icon nc-money-coins",
-    component: Payments,
-    layout: "/licensee",
-  },
+
 
   {
     path: "/ip",

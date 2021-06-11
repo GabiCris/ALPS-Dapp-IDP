@@ -44,11 +44,6 @@ class Payments extends React.Component {
     };
     for (let [key, value] of smartLicenses) {
       let pastEvents = await value.getPastEvents("allEvents", eventOptions);
-      // value.events.RoyaltyComputed({})
-      // .on('data', async function(event){
-      //   console.log(event.log("payment EVENT HAPPENED", event.returnValues))
-      // })
-      // .on('error', console.error);
       for (let e of pastEvents) {
         if (e.event === "PaymentAcknowledged") {
           eventsHistory.push([
@@ -56,8 +51,8 @@ class Payments extends React.Component {
             e.event,
             e.blockNumber,
             e.returnValues._amount,
-            e.returnValues._dueAmount - e.returnValues._amount,
             e.returnValues._dueAmount,
+            parseInt(e.returnValues._dueAmount) - parseInt(e.returnValues._amount),
             timeConverter(e.returnValues._timestamp),
           ]);
         }
@@ -67,10 +62,12 @@ class Payments extends React.Component {
             e.event,
             e.blockNumber,
             e.returnValues._amount,
-            e.returnValues._dueAmount - e.returnValues._amount,
             e.returnValues._dueAmount,
+            parseInt(e.returnValues._dueAmount) + parseInt(e.returnValues._amount),
             timeConverter(e.returnValues._timestamp),
+            timeConverter(e.returnValues._deadline),
           ]);
+          console.log("EVENT EMITTER DEADLINE:" ,timeConverter(e.returnValues._deadline));
         }
       }
     }
@@ -78,7 +75,7 @@ class Payments extends React.Component {
       historyData: [...this.state.historyData, ...[eventsHistory]],
       billingData: [...this.state.billingData, ...[eventsBilling]],
     });
-    this.props.updateTransactionHistory(this.state.historyData);
+    this.props.updateTransactionHistory(this.state.billingData);
   }
 
   handleChange(event) {
@@ -102,29 +99,7 @@ class Payments extends React.Component {
               />
             </Col>
           </Row>
-          {/* <Row>
-            <Col md="4">
-              <Card className="chart">
-                <CardHeader>
-                  <CardTitle tag="h5">Monthly Payments Breakdown</CardTitle>
-                  <p className="card-category">February 2021</p>
-                </CardHeader>
-                <CardBody>
-                  <PaymentsPie data={dataPie} />
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md="8">
-              <Card className="chart">
-                <CardHeader>
-                  <CardTitle tag="h5">Annual Payments</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <ActLineChart data={dataActLine} />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row> */}
+          
         </div>
       </>
     );
