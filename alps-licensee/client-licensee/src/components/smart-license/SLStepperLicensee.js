@@ -84,6 +84,7 @@ function getStepContent(
   messages
 ) {
   let confirmed = false;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const classes = useStylesTextArea();
   switch (step) {
     case 0:
@@ -293,6 +294,7 @@ export default function SLStepperLicensee({
     }
 
     setActiveStep((prevActiveStep) => {
+      // eslint-disable-next-line no-unused-expressions
       prevActiveStep + 1;
     });
     setSkipped((prevSkipped) => {
