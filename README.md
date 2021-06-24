@@ -4,7 +4,7 @@ Dapp developed as an IDP project at the Technical University of Munich in partne
 
 # Installation Guide
 
-For first time installation follow steps [#1](#1.-Set-up-the-backend-blockchain-(Ganache)) and [#2](2.-Set-up-and-run-React-frontend). Afterwards, in order to run the app, simply make sure to have the Ganache blockchain running, then simply start up the dapp by running `npm start` in `client-licensee`.
+For first time installation follow steps [#1](#1.-Set-up-the-backend-blockchain-(Ganache)) and [#2](2.-Set-up-and-run-React-frontend). Afterwards, in order to run the app,  make sure to have the Ganache blockchain running, then simply start up the dapp by running `npm start` in `client-licensee`.
 ## Prerequisites
 * Clone Repo
 * Install [npm](https://www.npmjs.com/get-npm)
