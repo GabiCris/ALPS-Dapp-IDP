@@ -84,7 +84,6 @@ function getStepContent(
   messages
 ) {
   let confirmed = false;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const classes = useStylesTextArea();
   switch (step) {
     case 0:
