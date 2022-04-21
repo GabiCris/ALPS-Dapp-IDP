@@ -7,6 +7,10 @@ const getContractObjects = async (web3, SmartLicense1) => {
   let deviceManagers = new Map();
   let contractsAbi = getContractsAbi();
   let conArr = [];
+  let managerAbi = contractsAbi.get("ManagerContract");
+
+  let managerRoyalty = new Map();
+  let managerData = new Map();
 
   let token = localStorage.getItem("CurrentToken");
   // 0 - licensee, 1-licensor
@@ -43,6 +47,8 @@ const getContractObjects = async (web3, SmartLicense1) => {
   let slIpMap = new Map();
   let ipDeviceMap = new Map();
   let ipSlMap = new Map();
+  let managerMap = new Map();
+
 
   if (appState === "0") {
     console.log("APP STATE 0")
@@ -106,6 +112,19 @@ const getContractObjects = async (web3, SmartLicense1) => {
         // }
       } 
       catch (e) {
+        console.log(e);
+      }
+
+      let auxMan = new web3.eth.Contract(managerAbi, instance);
+      try {
+         let royalty = await auxMan.methods.getRoyalty().call();
+         let licensee = await auxMan.methods.licensee().call();
+         let licensor = await auxMan.methods.licensor().call();
+         managerMap.set(auxMan._address, auxMan);
+         managerRoyalty.set(auxMan._address, royalty);
+         managerData.set(auxMan._address, [licensee, licensor]);
+      }
+      catch(e) {
         console.log(e);
       }
     }
@@ -193,9 +212,9 @@ const getContractObjects = async (web3, SmartLicense1) => {
     licensors,
     ips,
     deviceIds,
-    slIpMap,
-    ipDeviceMap,
-    ipSlMap,
+    managerData,
+    managerMap,
+    managerRoyalty,
   ];
 };
 

@@ -18,6 +18,10 @@ import LoadingAnimation from "components/login/LoadingAnimation";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import getContractsAbi from "variables/GetContractsAbi";
 import SmartLicense3 from "contracts/SmartLicense3.json";
+import VerificationContract from "contracts/VerificationContract.json";
+import AggregatorContract from "contracts/AggregatorContract.json";
+import RoyaltyComputationContract from "contracts/RoyaltyComputationContract.json";
+import ManagerContract from "contracts/ManagerContract.json";
 
 let provider = new Web3.providers.HttpProvider("http://localhost:8545");
 var web3 = new Web3(provider);
@@ -112,6 +116,10 @@ class App extends React.Component {
         let contracts = result[0];
         console.log("RESULT", result);
         contracts.push(OracleDemo);
+        contracts.push(VerificationContract);
+        contracts.push(AggregatorContract);
+        contracts.push(RoyaltyComputationContract);
+        contracts.push(ManagerContract);
         const optionsDrizzle = {
           contracts: contracts,
           web3: {
@@ -120,12 +128,9 @@ class App extends React.Component {
               url: "ws://127.0.0.1:8545",
             },
           },
-          events: {
-            SmartLicense1: ["PaymentAcknowledged", "RoyaltyComputed"],
-          },
         };
         let drizzle = new Drizzle(optionsDrizzle);
-        console.log(drizzle);
+        console.log("state:", drizzle);
         // Get licensors
         let smartLicenses = result[1];
         let deviceManagers = result[2];

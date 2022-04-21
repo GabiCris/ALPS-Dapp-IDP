@@ -98,8 +98,18 @@ class ActiveLicenses extends React.Component {
     return newData;
   }
 
+  getRoyaltyLicensesData() {
+    let tableData = [];
+    let i = 0;
+    for (let [adr, val] of this.props.slIpMap) {
+      tableData.push([i++, adr, val[0], val[1], 0]);
+    }
+    return tableData;
+  }
+
   render() {
-    let tableData = this.getTableData();
+    // let tableData = this.getTableData();
+    let tableData = this.getRoyaltyLicensesData();
     console.log("table data", tableData)
     return (
       <>

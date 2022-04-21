@@ -65,6 +65,7 @@ class Dashboard extends React.Component {
     super(props);
     this.getDueAmount = this.getDueAmount.bind(this);
     this.getDeviceNo = this.getDeviceNo.bind(this);
+    // this.getComputedRoyalty = this.getComputedRoyalty.bind(this);
     this.state = {
       keysArr: [],
       dueAmount: 0,
@@ -73,6 +74,7 @@ class Dashboard extends React.Component {
       deviceNo: [],
       ipBarData: [],
       loadedData: false,
+      computedRoyaltyK: 0,
     };
   }
 
@@ -84,6 +86,12 @@ class Dashboard extends React.Component {
       activeLicensesNo: licensesNo,
       noIps: noIps,
     });
+    let computedRoyaltyK;
+    try {
+      console.log("comp did mount man contr", drizzle.contracts["ManagerContract"]);
+    computedRoyaltyK = drizzle.contracts["ManagerContract"].methods.getRoyalty.cacheCall();
+    computedRoyaltyK= drizzle.contracts["ManagerContract"].methods.getRoyalty().call();
+    } catch (e) {console.log("comp roylaty err", e);}
     let auxArr = [];
     for (let [address, value] of smartLicenses) {
       try {
@@ -117,6 +125,7 @@ class Dashboard extends React.Component {
       this.setState({
         keysArr: [...this.state.keysArr, auxArr],
         deviceNo: [...this.state.deviceNo, ...oracleArr],
+        computedRoyaltyK: computedRoyaltyK,
       });
     }
   }
@@ -370,6 +379,28 @@ class Dashboard extends React.Component {
     }
     return dueAmount;
   }
+
+  getRoyaltiesSum() {
+    let sum = 0;
+    for (let [key, value] of this.props.ipSlMap) {
+      sum += parseInt(value);
+    }
+    return sum;
+  }
+
+  getPaymentPieRoyalties(){
+    let data = [];
+    let i = 0;
+    for (let [adr, val] of this.props.ipSlMap) {
+      if (i!=0) {
+      data.push({id: adr, value: parseInt(val)});
+     
+    }
+    i++;
+    }
+    return data;
+  }
+
   render() {
     let data = this.getDueAmount();
     console.log("DUE AMOUNT DATA", data);
@@ -382,14 +413,21 @@ class Dashboard extends React.Component {
     let barGraphData = aux_data[1];
 
     let monthlyPayData = this.getPaymentGraphData();
+    let noActiveLicenses = this.props.ipSlMap.size;
 
+    let royValue = this.props.drizzleState.contracts["ManagerContract"].licensee[0x0];
+    console.log("ROYCOMP CONTRACT:", royValue, this.state.computedRoyaltyK);
     if (this.checkDataLoaded(barGraphData) && !this.state.loadedData) {
       this.setState({
         loadedData: true,
       });
     }
-    console.log("BAR GRAPH DATA", barGraphData, this.state.loadedData);
-    console.log("DEVICE GRAPH", deviceUsageData);
+
+
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var date = new Date();
+
+    console.log("PIE:", this.getPaymentPieRoyalties());
     return (
       <>
         <div className="content">
@@ -409,8 +447,8 @@ class Dashboard extends React.Component {
                       </Col>
                       <Col md="8" xs="7">
                         <div className="numbers">
-                          <p className="card-category">Total Amount Due</p>
-                          <CardTitle tag="p">$ {dueAmount}</CardTitle>
+                          <p className="card-category">Total Royalties Due</p>
+                          <CardTitle tag="p">$ {this.getRoyaltiesSum()}</CardTitle>
                           <p />
                         </div>
                       </Col>
@@ -453,7 +491,7 @@ class Dashboard extends React.Component {
                   <CardFooter>
                     <hr />
                     <div className="stats">
-                      <i className="fas fa-sync-alt" /> Due Amount by 06.30.2021
+                      <i className="fas fa-sync-alt" /> Due Amount by {new Date().toISOString().slice(0, 10)}
                     </div>
                   </CardFooter>
                 </Card>
@@ -474,79 +512,10 @@ class Dashboard extends React.Component {
                         </div>
                       </Col>
                       <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">Outstanding Sum</p>
-                          <CardTitle tag="p">
-                            $ {this.getOverDuePayments()}
-                          </CardTitle>
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="fas fa-sync-alt" /> Total already due by
-                      07.06.2021
-                    </div>
-                  </CardFooter>
-                </Card>
-              </Link>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Link to={"/licensee/ip"}>
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <SettingsInputSvideoIcon
-                            fontSize="large"
-                            style={{ color: "#51cbce" }}
-                          />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">IPs</p>
-                          <CardTitle tag="p"> {this.state.noIps}</CardTitle>
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="far fa-clock" /> Averaging{" "}
-                      {(
-                        this.state.noIps / this.props.deviceManagers.size
-                      ).toFixed(1)}{" "}
-                      IPs per active Device
-                    </div>
-                  </CardFooter>
-                </Card>
-              </Link>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Link to={"/licensee/licenses"}>
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <GraphicEqIcon
-                            fontSize="large"
-                            style={{ color: "#51cbce" }}
-                          />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
+                      <div className="numbers">
                           <p className="card-category">Active Licenses</p>
                           <CardTitle tag="p">
-                            {this.state.activeLicensesNo}
+                            {noActiveLicenses}
                           </CardTitle>
                           <p />
                         </div>
@@ -556,45 +525,15 @@ class Dashboard extends React.Component {
                   <CardFooter>
                     <hr />
                     <div className="stats">
-                      <i className="far fa-calendar" /> Last day
+                      <i className="far fa-calendar" /> See Licenses
                     </div>
                   </CardFooter>
                 </Card>
               </Link>
             </Col>
+            
 
-            <Col lg="3" md="6" sm="6">
-              <Link to={"/licensee/devices"}>
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col md="4" xs="5">
-                        <div className="icon-big text-center icon-warning">
-                          <SettingsInputAntennaOutlinedIcon
-                            fontSize="large"
-                            style={{ color: "#51cbce" }}
-                          />
-                        </div>
-                      </Col>
-                      <Col md="8" xs="7">
-                        <div className="numbers">
-                          <p className="card-category">Device Instances</p>
-                          <CardTitle tag="p">{deviceNo}</CardTitle>
-                          <p />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="far fa-calendar" /> Total of{" "}
-                      {this.props.deviceManagers.size} devices
-                    </div>
-                  </CardFooter>
-                </Card>
-              </Link>
-            </Col>
+            
           </Row>
           {this.props.appState === "0" ? (
             <>
@@ -602,17 +541,17 @@ class Dashboard extends React.Component {
                 <Col md="4">
                   <Card className="chart">
                     <CardHeader>
-                      <CardTitle tag="h5">Payments Breakdown</CardTitle>
+                      <CardTitle tag="h5">Royalty Payments Breakdown</CardTitle>
                       <p className="card-category">
                         {this.props.appState === "0"
-                          ? "June 2021"
+                          ? months[date.getMonth()] + ' ' + date.getFullYear()
                           : "Total Due Amount per Licensee"}
                       </p>
                     </CardHeader>
                     <CardBody>
                       <PaymentsPie
-                        data={paymentGraphData}
-                        paymentData={paymentGraphData}
+                        data={this.getPaymentPieRoyalties()}
+                        // paymentData={paymentGraphData}
                       />
                     </CardBody>
                   </Card>
@@ -690,14 +629,14 @@ class Dashboard extends React.Component {
                       <CardTitle tag="h5">Payments Breakdown</CardTitle>
                       <p className="card-category">
                         {this.props.appState === "0"
-                          ? "March 2021"
+                          ? months[date.getMonth()] + ' ' + date.getFullYear()
                           : "Total Due Amount per Licensee"}
                       </p>
                     </CardHeader>
                     <CardBody>
                       <PaymentsPie
-                        data={paymentGraphData}
-                        paymentData={paymentGraphData}
+                        data={this.getPaymentPieRoyalties()}
+                        // paymentData={paymentGraphData}
                       />
                     </CardBody>
                   </Card>

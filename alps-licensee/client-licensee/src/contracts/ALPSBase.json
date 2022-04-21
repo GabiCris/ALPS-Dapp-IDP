@@ -1,0 +1,757 @@
+{
+  "contractName": "ALPSBase",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.13+commit.abaa5c0e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ALPSBase.sol\":\"ALPSBase\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/ALPSBase.sol\":{\"keccak256\":\"0xcd7be29f94230de66158e643c117c73d93ae96fc094ea2eff9f93d1d47958483\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d934fb1e9764927739a1ef960185feecb0eed582929426135ce497b1609915a0\",\"dweb:/ipfs/QmQVgLyw2vKB79LqwFF7edmerqo3uPVkhZotbut473njcn\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.22 <0.9.0;\r\n\r\ninterface ALPSBase {\r\n    /*struct Attribute {\r\n        uint256 attributeId;\r\n        uint256[] currentValue;\r\n        uint256 lastUpdateTimestamp;\r\n        uint256 timeValidity;\r\n        address sourceVC;\r\n        bool isValueExtrapolated;\r\n    }\r\n\r\n    struct AttributeValue {\r\n        uint256 id;\r\n        uint256[] value;\r\n        uint256 collectionTimestamp;\r\n    }*/\r\n    struct AttributeValues{\r\n        uint256 periodTime_start;\r\n        //periodTime_end implicitely equal to periodTime_start+collectionTime_duration\r\n        uint256 value_screenUsage;\r\n        bool extrapolated_screenUsage;\r\n        bool value_bluetoothUsed;\r\n        bool extrapolated_bluetoothUsed;\r\n    }\r\n\r\n    struct Royalty{\r\n        uint256 periodTime_start;\r\n        //periodTime_end implicitely equal to periodTime_start+collectionTime_duration\r\n        uint256 computedRoyalty;\r\n        bool paid;\r\n    }    \r\n\r\n    struct OracleValue {\r\n        uint256 collectionTimestamp;\r\n        uint256[] currentValues;\r\n    }\r\n}\r\n\r\n",
+  "sourcePath": "C:\\Users\\n3zqi\\Desktop\\ALPS-Dapp-IDP\\alps-licensee\\contracts\\ALPSBase.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ALPSBase.sol",
+    "exportedSymbols": {
+      "ALPSBase": [
+        153
+      ]
+    },
+    "id": 154,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 128,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:32:2"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ALPSBase",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "id": 153,
+        "linearizedBaseContracts": [
+          153
+        ],
+        "name": "ALPSBase",
+        "nameLocation": "79:8:2",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ALPSBase.AttributeValues",
+            "id": 139,
+            "members": [
+              {
+                "constant": false,
+                "id": 130,
+                "mutability": "mutable",
+                "name": "periodTime_start",
+                "nameLocation": "488:16:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "480:24:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 129,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "480:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 132,
+                "mutability": "mutable",
+                "name": "value_screenUsage",
+                "nameLocation": "611:17:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "603:25:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 131,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "603:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 134,
+                "mutability": "mutable",
+                "name": "extrapolated_screenUsage",
+                "nameLocation": "644:24:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "639:29:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 133,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "639:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 136,
+                "mutability": "mutable",
+                "name": "value_bluetoothUsed",
+                "nameLocation": "684:19:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "679:24:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 135,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "679:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 138,
+                "mutability": "mutable",
+                "name": "extrapolated_bluetoothUsed",
+                "nameLocation": "719:26:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "714:31:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 137,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "714:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "AttributeValues",
+            "nameLocation": "454:15:2",
+            "nodeType": "StructDefinition",
+            "scope": 153,
+            "src": "447:306:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ALPSBase.Royalty",
+            "id": 146,
+            "members": [
+              {
+                "constant": false,
+                "id": 141,
+                "mutability": "mutable",
+                "name": "periodTime_start",
+                "nameLocation": "794:16:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 146,
+                "src": "786:24:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 140,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "786:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 143,
+                "mutability": "mutable",
+                "name": "computedRoyalty",
+                "nameLocation": "917:15:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 146,
+                "src": "909:23:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 142,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "909:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 145,
+                "mutability": "mutable",
+                "name": "paid",
+                "nameLocation": "948:4:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 146,
+                "src": "943:9:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 144,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "943:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Royalty",
+            "nameLocation": "768:7:2",
+            "nodeType": "StructDefinition",
+            "scope": 153,
+            "src": "761:199:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ALPSBase.OracleValue",
+            "id": 152,
+            "members": [
+              {
+                "constant": false,
+                "id": 148,
+                "mutability": "mutable",
+                "name": "collectionTimestamp",
+                "nameLocation": "1010:19:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 152,
+                "src": "1002:27:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 147,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1002:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 151,
+                "mutability": "mutable",
+                "name": "currentValues",
+                "nameLocation": "1050:13:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 152,
+                "src": "1040:23:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 149,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1040:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 150,
+                  "nodeType": "ArrayTypeName",
+                  "src": "1040:9:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[]"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "OracleValue",
+            "nameLocation": "979:11:2",
+            "nodeType": "StructDefinition",
+            "scope": 153,
+            "src": "972:99:2",
+            "visibility": "public"
+          }
+        ],
+        "scope": 154,
+        "src": "69:1005:2",
+        "usedErrors": []
+      }
+    ],
+    "src": "33:1045:2"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/ALPSBase.sol",
+    "exportedSymbols": {
+      "ALPSBase": [
+        153
+      ]
+    },
+    "id": 154,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 128,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:32:2"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ALPSBase",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "id": 153,
+        "linearizedBaseContracts": [
+          153
+        ],
+        "name": "ALPSBase",
+        "nameLocation": "79:8:2",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ALPSBase.AttributeValues",
+            "id": 139,
+            "members": [
+              {
+                "constant": false,
+                "id": 130,
+                "mutability": "mutable",
+                "name": "periodTime_start",
+                "nameLocation": "488:16:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "480:24:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 129,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "480:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 132,
+                "mutability": "mutable",
+                "name": "value_screenUsage",
+                "nameLocation": "611:17:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "603:25:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 131,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "603:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 134,
+                "mutability": "mutable",
+                "name": "extrapolated_screenUsage",
+                "nameLocation": "644:24:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "639:29:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 133,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "639:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 136,
+                "mutability": "mutable",
+                "name": "value_bluetoothUsed",
+                "nameLocation": "684:19:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "679:24:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 135,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "679:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 138,
+                "mutability": "mutable",
+                "name": "extrapolated_bluetoothUsed",
+                "nameLocation": "719:26:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 139,
+                "src": "714:31:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 137,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "714:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "AttributeValues",
+            "nameLocation": "454:15:2",
+            "nodeType": "StructDefinition",
+            "scope": 153,
+            "src": "447:306:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ALPSBase.Royalty",
+            "id": 146,
+            "members": [
+              {
+                "constant": false,
+                "id": 141,
+                "mutability": "mutable",
+                "name": "periodTime_start",
+                "nameLocation": "794:16:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 146,
+                "src": "786:24:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 140,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "786:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 143,
+                "mutability": "mutable",
+                "name": "computedRoyalty",
+                "nameLocation": "917:15:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 146,
+                "src": "909:23:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 142,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "909:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 145,
+                "mutability": "mutable",
+                "name": "paid",
+                "nameLocation": "948:4:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 146,
+                "src": "943:9:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 144,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "943:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Royalty",
+            "nameLocation": "768:7:2",
+            "nodeType": "StructDefinition",
+            "scope": 153,
+            "src": "761:199:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "ALPSBase.OracleValue",
+            "id": 152,
+            "members": [
+              {
+                "constant": false,
+                "id": 148,
+                "mutability": "mutable",
+                "name": "collectionTimestamp",
+                "nameLocation": "1010:19:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 152,
+                "src": "1002:27:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 147,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1002:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 151,
+                "mutability": "mutable",
+                "name": "currentValues",
+                "nameLocation": "1050:13:2",
+                "nodeType": "VariableDeclaration",
+                "scope": 152,
+                "src": "1040:23:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 149,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1040:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 150,
+                  "nodeType": "ArrayTypeName",
+                  "src": "1040:9:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[]"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "OracleValue",
+            "nameLocation": "979:11:2",
+            "nodeType": "StructDefinition",
+            "scope": 153,
+            "src": "972:99:2",
+            "visibility": "public"
+          }
+        ],
+        "scope": 154,
+        "src": "69:1005:2",
+        "usedErrors": []
+      }
+    ],
+    "src": "33:1045:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.13+commit.abaa5c0e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2022-04-21T09:32:39.385Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
